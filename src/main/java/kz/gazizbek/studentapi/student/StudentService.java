@@ -35,6 +35,20 @@ public class StudentService {
 		return repository.save(student);
 	}
 
+	public Student update(Long id, StudentRequest request) {
+		Student student = findById(id);
+		boolean emailChanged = !student.getEmail().equalsIgnoreCase(request.email());
+		if (emailChanged && repository.existsByEmailIgnoreCase(request.email())) {
+			throw new DuplicateEmailException(request.email());
+		}
+		student.setFirstName(request.firstName());
+		student.setLastName(request.lastName());
+		student.setEmail(request.email());
+		student.setGroupName(request.groupName());
+		student.setCourse(request.course());
+		return repository.saveAndFlush(student);
+	}
+
 	public void delete(Long id) {
 		Student student = findById(id);
 		repository.delete(student);

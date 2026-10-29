@@ -42,9 +42,22 @@ gazizbek-batyr-student-api/
 | GET    | `/api/gazizbek-batyr/students`        | List all students     |
 | GET    | `/api/gazizbek-batyr/students/{id}`   | Get one student       |
 | POST   | `/api/gazizbek-batyr/students`        | Create a student      |
+| PUT    | `/api/gazizbek-batyr/students/{id}`   | Update a student      |
 | DELETE | `/api/gazizbek-batyr/students/{id}`   | Delete a student      |
 
 A missing student returns `404 Not Found` with a JSON error body.
+
+## Change log
+
+### Student update operation (feature/gazizbek-batyr-crud, author: Batyr Gazizbek)
+
+- Added `PUT /api/gazizbek-batyr/students/{id}` which replaces first name, last name,
+  email, group and course of an existing student.
+- The request body is validated (`@Valid`): empty names, invalid emails or a course
+  outside 1-4 return `400 Bad Request`.
+- Updating a student that does not exist returns `404 Not Found`; changing the email
+  to one that already belongs to another student returns `409 Conflict`.
+- Covered by `updatesStudent` and `updateOfMissingStudentReturns404` tests.
 
 ## Build and test
 

@@ -14,6 +14,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -74,6 +75,25 @@ class StudentControllerTests {
 		createBatyr();
 		mvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(BATYR))
 				.andExpect(status().isConflict());
+	}
+
+	@Test
+	void updatesStudent() throws Exception {
+		String location = createBatyr().getResponse().getHeader("Location");
+
+		mvc.perform(put(location).contentType(MediaType.APPLICATION_JSON)
+						.content("{\"firstName\":\"Batyr\",\"lastName\":\"Gazizbek\",\"email\":\"b.gazizbek@student.kz\",\"groupName\":\"IT2-2301\",\"course\":4}"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.email").value("b.gazizbek@student.kz"))
+				.andExpect(jsonPath("$.course").value(4));
+		mvc.perform(get(location))
+				.andExpect(jsonPath("$.course").value(4));
+	}
+
+	@Test
+	void updateOfMissingStudentReturns404() throws Exception {
+		mvc.perform(put(URL + "/999999").contentType(MediaType.APPLICATION_JSON).content(BATYR))
+				.andExpect(status().isNotFound());
 	}
 
 	@Test
