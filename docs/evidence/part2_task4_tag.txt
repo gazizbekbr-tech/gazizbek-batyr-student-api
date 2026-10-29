@@ -1,0 +1,15 @@
+
+==================== Task 2.4 Version tag - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git tag -a v1.0-gazizbek-batyr -m 'Release 1.0 of Gazizbek Batyr Student API (CRUD + Docker Compose)'
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git push origin v1.0-gazizbek-batyr
+To https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ * [new tag]         v1.0-gazizbek-batyr -> v1.0-gazizbek-batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git show v1.0-gazizbek-batyr --no-patch --format='%h %s'
+tag v1.0-gazizbek-batyr
+Tagger: Batyr Gazizbek <343244434+gazizbekbr-tech@users.noreply.github.com>
+
+Release 1.0 of Gazizbek Batyr Student API (CRUD + Docker Compose)
+b653ad3 Add Docker Compose with PostgreSQL, volume, network and health check - Gazizbek Batyr

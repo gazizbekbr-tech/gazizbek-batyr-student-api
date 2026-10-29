@@ -1,0 +1,51 @@
+
+==================== Task 4.4 Automation (polling trigger) - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ grep -n pollSCM Jenkinsfile
+20:        pollSCM('* * * * *')
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -g 'http://localhost:8080/job/Gazizbek_Batyr_Student_API/job/main/api/json?tree=builds[number,result]' | jq -c '.builds[]'
+{"_class":"org.jenkinsci.plugins.workflow.job.WorkflowRun","number":4,"result":"SUCCESS"}
+{"_class":"org.jenkinsci.plugins.workflow.job.WorkflowRun","number":3,"result":"SUCCESS"}
+{"_class":"org.jenkinsci.plugins.workflow.job.WorkflowRun","number":2,"result":"SUCCESS"}
+{"_class":"org.jenkinsci.plugins.workflow.job.WorkflowRun","number":1,"result":"SUCCESS"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add README.md
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m 'Document Docker, Compose, Jenkins CI and secrets handling - Gazizbek Batyr' && git log --oneline -1
+b297663 Document Docker, Compose, Jenkins CI and secrets handling - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git push origin main 2>&1 | grep -E -- '->'
+   7fb72c2..b297663  main -> main
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ date '+%H:%M:%S  pushed, no manual build started - waiting for Jenkins polling'
+06:21:17  pushed, no manual build started - waiting for Jenkins polling
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s 'http://localhost:8080/job/Gazizbek_Batyr_Student_API/job/main/5/api/json' | jq -r '"Build #" + (.number|tostring) + " " + .result + " | cause: " + ([.actions[] | select(._class=="hudson.model.CauseAction") | .causes[].shortDescription] | join(", "))'
+Build #5 SUCCESS | cause: Started by an SCM change
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -g 'http://localhost:8080/job/Gazizbek_Batyr_Student_API/job/main/api/json?tree=builds[number,result,timestamp]' | jq -r '.builds[] | "#\(.number)  \(.result)  \(.timestamp/1000 | strftime("%Y-%m-%d %H:%M:%S UTC"))"'
+#5  SUCCESS  2026-10-29 01:22:03 UTC
+#4  SUCCESS  2026-10-29 01:18:45 UTC
+#3  SUCCESS  2026-10-29 01:18:09 UTC
+#2  SUCCESS  2026-10-29 01:13:03 UTC
+#1  SUCCESS  2026-10-29 01:12:24 UTC
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s 'http://localhost:8080/job/Gazizbek_Batyr_Student_API/job/main/5/consoleText' | grep -E 'Started by|Commit      :|Pipeline of|tests completed|PASSED|VERIFY OK|SUCCESS:|Finished'
+Started by an SCM change
+[2026-10-29T01:22:08.007Z] + echo  Pipeline of Batyr Gazizbek (IT2-2301, ID 38091)
+[2026-10-29T01:22:08.007Z]  Pipeline of Batyr Gazizbek (IT2-2301, ID 38091)
+[2026-10-29T01:22:08.007Z] + git log -1 --format=Commit      : %h %s (%an)
+[2026-10-29T01:22:08.007Z] Commit      : b297663 Document Docker, Compose, Jenkins CI and secrets handling - Gazizbek Batyr (Batyr Gazizbek)
+[2026-10-29T01:22:22.283Z] StudentControllerTests > createsAndReadsStudent() PASSED
+[2026-10-29T01:22:22.545Z] StudentControllerTests > infoShowsStudentName() PASSED
+[2026-10-29T01:22:22.545Z] StudentControllerTests > rejectsInvalidStudent() PASSED
+[2026-10-29T01:22:22.545Z] StudentControllerTests > updatesStudent() PASSED
+[2026-10-29T01:22:22.545Z] StudentControllerTests > returns404ForMissingStudent() PASSED
+[2026-10-29T01:22:22.545Z] StudentControllerTests > deletesStudent() PASSED
+[2026-10-29T01:22:22.545Z] StudentControllerTests > rejectsDuplicateEmail() PASSED
+[2026-10-29T01:22:22.545Z] StudentControllerTests > updateOfMissingStudentReturns404() PASSED
+[2026-10-29T01:22:30.337Z] + echo VERIFY OK: gazizbek-batyr-student-api:v1.1-gazizbek-batyr starts and answers for Batyr Gazizbek
+[2026-10-29T01:22:30.337Z] VERIFY OK: gazizbek-batyr-student-api:v1.1-gazizbek-batyr starts and answers for Batyr Gazizbek
+[2026-10-29T01:22:30.720Z] SUCCESS: pipeline of Batyr Gazizbek built gazizbek-batyr-student-api:v1.1-gazizbek-batyr
+Finished: SUCCESS

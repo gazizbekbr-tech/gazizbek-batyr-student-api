@@ -1,0 +1,131 @@
+
+==================== Task 3.3 Container management - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
+CONTAINER ID   NAMES                     IMAGE                                            STATUS                        PORTS
+ebddfb7dc15c   gazizbek-batyr-app        gazizbek-batyr-student-api:v1.0-gazizbek-batyr   Up About a minute             0.0.0.0:8091->8091/tcp, [::]:8091->8091/tcp
+e8243ed664d4   gazizbek-batyr-postgres   postgres:17-alpine                               Up About a minute (healthy)   5432/tcp
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker logs --tail 8 gazizbek-batyr-app 2>&1 | cut -c1-200
+2026-10-29T01:02:18.624Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-10-29T01:02:18.665Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8091 (http) with context path '/'
+2026-10-29T01:02:18.670Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] k.g.s.GazizbekBatyrStudentApiApplication : Started GazizbekBatyrStudentApiApplication in 2.607 seconds (process runn
+2026-10-29T01:02:18.722Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] k.g.studentapi.config.StudentDataSeeder  : Student API owner: Batyr Gazizbek
+2026-10-29T01:02:18.979Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] k.g.studentapi.config.StudentDataSeeder  : Seeded 3 students for Batyr Gazizbek
+2026-10-29T01:02:39.246Z  INFO 1 --- [gazizbek-batyr-student-api] [nio-8091-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-29T01:02:39.247Z  INFO 1 --- [gazizbek-batyr-student-api] [nio-8091-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-29T01:02:39.248Z  INFO 1 --- [gazizbek-batyr-student-api] [nio-8091-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker inspect gazizbek-batyr-app --format 'Name: {{.Name}}{{println}}Image: {{.Config.Image}}{{println}}State: {{.State.Status}} (started {{.State.StartedAt}}){{println}}RestartPolicy: {{.HostConfig.RestartPolicy.Name}}{{println}}Ports: {{json .NetworkSettings.Ports}}{{println}}Networks: {{range $k,$v := .NetworkSettings.Networks}}{{$k}} ip={{$v.IPAddress}} aliases={{$v.DNSNames}}{{end}}'
+Name: /gazizbek-batyr-app
+Image: gazizbek-batyr-student-api:v1.0-gazizbek-batyr
+State: running (started 2026-10-29T01:02:15.507786301Z)
+RestartPolicy: unless-stopped
+Ports: {"8091/tcp":[{"HostIp":"0.0.0.0","HostPort":"8091"},{"HostIp":"::","HostPort":"8091"}]}
+Networks: gazizbek-batyr-student-api_gazizbek-batyr-net ip=172.18.0.3 aliases=[gazizbek-batyr-app ebddfb7dc15c]
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker inspect gazizbek-batyr-app --format '{{range .Config.Env}}{{println .}}{{end}}' | grep -v PASSWORD   # password hidden on purpose
+SERVER_PORT=8091
+SPRING_DATASOURCE_URL=jdbc:postgresql://gazizbek-batyr-db:5432/gazizbek_batyr_db
+SPRING_DATASOURCE_USERNAME=gazizbek_batyr
+PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+JAVA_HOME=/opt/java/openjdk
+LANG=en_US.UTF-8
+LANGUAGE=en_US:en
+LC_ALL=en_US.UTF-8
+JAVA_VERSION=jdk-21.0.12.1+1
+STUDENT_NAME=Batyr Gazizbek
+
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker inspect gazizbek-batyr-postgres --format 'Mounts: {{range .Mounts}}{{.Type}} {{.Name}} -> {{.Destination}}{{end}}{{println}}Health: {{.State.Health.Status}}'
+Mounts: volume gazizbek-batyr-student-api_gazizbek-batyr-pgdata -> /var/lib/postgresql/data
+Health: healthy
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker exec gazizbek-batyr-app sh -c 'whoami; java -version 2>&1 | head -1; ls -l /app; echo STUDENT_NAME=$STUDENT_NAME'
+spring
+openjdk version "21.0.12.1" 2026-08-18 LTS
+total 53844
+-rw-r--r-- 1 root root 55134207 Oct 29 01:01 app.jar
+STUDENT_NAME=Batyr Gazizbek
+
+==================== Stop and restart the application service ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose stop gazizbek-batyr-app
+ Container gazizbek-batyr-app Stopping 
+ Container gazizbek-batyr-app Stopped 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose ps -a --format 'table {{.Name}}\t{{.Status}}'
+NAME                      STATUS
+gazizbek-batyr-app        Exited (143) Less than a second ago
+gazizbek-batyr-postgres   Up About a minute (healthy)
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' http://localhost:8091/ || echo 'application is not reachable (stopped)'
+HTTP 000
+application is not reachable (stopped)
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose start gazizbek-batyr-app
+ Container gazizbek-batyr-postgres Waiting 
+ Container gazizbek-batyr-postgres Healthy 
+ Container gazizbek-batyr-app Starting 
+ Container gazizbek-batyr-app Started 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose ps --format 'table {{.Name}}\t{{.Status}}'
+NAME                      STATUS
+gazizbek-batyr-app        Up 4 seconds
+gazizbek-batyr-postgres   Up About a minute (healthy)
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose restart gazizbek-batyr-app
+ Container gazizbek-batyr-app Restarting 
+ Container gazizbek-batyr-app Started 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s http://localhost:8091/; echo
+{"application":"gazizbek-batyr-student-api","student":"Batyr Gazizbek","group":"IT2-2301","studentId":"38091","version":"1.0.0","studentsEndpoint":"/api/gazizbek-batyr/students"}
+
+==================== PostgreSQL data persists after restarting the services ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST $BASE -H 'Content-Type: application/json' -d '{"firstName":"Persistence","lastName":"Check Gazizbek","email":"persistence.gazizbek@student.kz","groupName":"IT2-2301","course":3}'
+HTTP 201
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker exec gazizbek-batyr-postgres psql -U gazizbek_batyr -d gazizbek_batyr_db -c 'SELECT id, first_name, last_name, email FROM students ORDER BY id;'
+ id | first_name  |   last_name    |              email              
+----+-------------+----------------+---------------------------------
+  1 | Batyr       | Gazizbek       | batyr.gazizbek@student.kz
+  2 | Aruzhan     | Seitkali       | aruzhan.seitkali@student.kz
+  3 | Nurlan      | Abenov         | nurlan.abenov@student.kz
+  5 | Persistence | Check Gazizbek | persistence.gazizbek@student.kz
+(4 rows)
+
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose down     # removes containers and network, keeps the named volume
+ Container gazizbek-batyr-app Stopping 
+ Container gazizbek-batyr-app Stopped 
+ Container gazizbek-batyr-app Removing 
+ Container gazizbek-batyr-app Removed 
+ Container gazizbek-batyr-postgres Stopping 
+ Container gazizbek-batyr-postgres Stopped 
+ Container gazizbek-batyr-postgres Removing 
+ Container gazizbek-batyr-postgres Removed 
+ Network gazizbek-batyr-student-api_gazizbek-batyr-net Removing 
+ Network gazizbek-batyr-student-api_gazizbek-batyr-net Removed 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker ps -a --filter name=gazizbek-batyr --format '{{.Names}}' | wc -l
+       0
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker volume ls --filter name=gazizbek-batyr-pgdata
+DRIVER    VOLUME NAME
+local     gazizbek-batyr-student-api_gazizbek-batyr-pgdata
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose up -d 2>&1 | tail -4
+ Container gazizbek-batyr-postgres Waiting 
+ Container gazizbek-batyr-postgres Healthy 
+ Container gazizbek-batyr-app Starting 
+ Container gazizbek-batyr-app Started 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker logs gazizbek-batyr-app 2>&1 | grep -E 'seed skipped|Seeded' | cut -c1-200
+2026-10-29T01:03:51.441Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] k.g.studentapi.config.StudentDataSeeder  : Database already contains 4 students, seed skipped
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s $BASE | jq -c '.[] | {id, firstName, lastName, email}'
+{"id":1,"firstName":"Batyr","lastName":"Gazizbek","email":"batyr.gazizbek@student.kz"}
+{"id":2,"firstName":"Aruzhan","lastName":"Seitkali","email":"aruzhan.seitkali@student.kz"}
+{"id":3,"firstName":"Nurlan","lastName":"Abenov","email":"nurlan.abenov@student.kz"}
+{"id":5,"firstName":"Persistence","lastName":"Check Gazizbek","email":"persistence.gazizbek@student.kz"}

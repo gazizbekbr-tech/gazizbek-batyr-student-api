@@ -1,0 +1,163 @@
+
+==================== Task 2.1 Repository initialization - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git init -b main
+Initialized empty Git repository in /Users/batyrgazizbek/Library/Application Support/Claude/scratch-workspaces/f5ffe52c-7f05-495f-b1a1-15a891208612/9123297d-2dee-44a7-8506-49bffaa7a467/scratch-2026-10-29-35662b/gazizbek-batyr-student-api/.git/
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git config user.name "Batyr Gazizbek"
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git config user.email "343244434+gazizbekbr-tech@users.noreply.github.com"
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git config --get user.name; git config --get user.email
+Batyr Gazizbek
+343244434+gazizbekbr-tech@users.noreply.github.com
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ touch logs/.gitkeep
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ cat > .gitignore <<'GI'
+# Gradle and build output
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE and OS files
+.idea/
+*.iml
+.vscode/
+out/
+.DS_Store
+
+# Logs and reports generated at runtime
+logs/*.log
+logs/*.txt
+!logs/.gitkeep
+
+# Secrets: environment files, passwords, credentials
+.env
+*.env
+!.env.example
+*.pem
+*.key
+
+# Local Jenkins data
+jenkins_home/
+GI
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ cat .gitignore
+# Gradle and build output
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE and OS files
+.idea/
+*.iml
+.vscode/
+out/
+.DS_Store
+
+# Logs and reports generated at runtime
+logs/*.log
+logs/*.txt
+!logs/.gitkeep
+
+# Secrets: environment files, passwords, credentials
+.env
+*.env
+!.env.example
+*.pem
+*.key
+
+# Local Jenkins data
+jenkins_home/
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git status --short
+?? .gitattributes
+?? .gitignore
+?? Dockerfile
+?? Jenkinsfile
+?? README.md
+?? backups/
+?? build.gradle
+?? docker-compose.yml
+?? gradle/
+?? gradlew
+?? gradlew.bat
+?? logs/
+?? scripts/
+?? settings.gradle
+?? src/
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add .
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git status --short
+A  .gitattributes
+A  .gitignore
+A  Dockerfile
+A  Jenkinsfile
+A  README.md
+A  backups/README_Gazizbek_Batyr_backup.md
+A  build.gradle
+A  docker-compose.yml
+A  gradle/wrapper/gradle-wrapper.jar
+A  gradle/wrapper/gradle-wrapper.properties
+A  gradlew
+A  gradlew.bat
+A  logs/.gitkeep
+A  scripts/Gazizbek_Batyr_system_report.sh
+A  settings.gradle
+A  src/main/java/kz/gazizbek/studentapi/GazizbekBatyrStudentApiApplication.java
+A  src/main/java/kz/gazizbek/studentapi/config/ApiExceptionHandler.java
+A  src/main/java/kz/gazizbek/studentapi/config/StudentDataSeeder.java
+A  src/main/java/kz/gazizbek/studentapi/info/InfoController.java
+A  src/main/java/kz/gazizbek/studentapi/student/DuplicateEmailException.java
+A  src/main/java/kz/gazizbek/studentapi/student/Student.java
+A  src/main/java/kz/gazizbek/studentapi/student/StudentController.java
+A  src/main/java/kz/gazizbek/studentapi/student/StudentNotFoundException.java
+A  src/main/java/kz/gazizbek/studentapi/student/StudentRepository.java
+A  src/main/java/kz/gazizbek/studentapi/student/StudentRequest.java
+A  src/main/java/kz/gazizbek/studentapi/student/StudentService.java
+A  src/main/resources/application.properties
+A  src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java
+A  src/test/resources/application.properties
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git check-ignore -v logs/Gazizbek_Batyr_system_report.log
+.gitignore:14:logs/*.log	logs/Gazizbek_Batyr_system_report.log
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m "Initial commit: Gazizbek Batyr Student API" && git log --oneline
+dcb5672 Initial commit: Gazizbek Batyr Student API
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git show --stat --format='%h %an <%ae>%n%s' HEAD | head -40
+dcb5672 Batyr Gazizbek <343244434+gazizbekbr-tech@users.noreply.github.com>
+Initial commit: Gazizbek Batyr Student API
+
+ .gitattributes                                     |   3 +
+ .gitignore                                         |  26 +++
+ Dockerfile                                         |   0
+ Jenkinsfile                                        |   0
+ README.md                                          |  61 +++++
+ backups/README_Gazizbek_Batyr_backup.md            |  61 +++++
+ build.gradle                                       |  55 +++++
+ docker-compose.yml                                 |   0
+ gradle/wrapper/gradle-wrapper.jar                  | Bin 0 -> 48749 bytes
+ gradle/wrapper/gradle-wrapper.properties           |   9 +
+ gradlew                                            | 248 +++++++++++++++++++++
+ gradlew.bat                                        | 112 ++++++++++
+ logs/.gitkeep                                      |   0
+ scripts/Gazizbek_Batyr_system_report.sh            |  74 ++++++
+ settings.gradle                                    |   1 +
+ .../GazizbekBatyrStudentApiApplication.java        |  13 ++
+ .../studentapi/config/ApiExceptionHandler.java     |  49 ++++
+ .../studentapi/config/StudentDataSeeder.java       |  43 ++++
+ .../gazizbek/studentapi/info/InfoController.java   |  44 ++++
+ .../student/DuplicateEmailException.java           |   8 +
+ .../kz/gazizbek/studentapi/student/Student.java    | 114 ++++++++++
+ .../studentapi/student/StudentController.java      |  53 +++++
+ .../student/StudentNotFoundException.java          |   8 +
+ .../studentapi/student/StudentRepository.java      |   8 +
+ .../studentapi/student/StudentRequest.java         |  17 ++
+ .../studentapi/student/StudentService.java         |  42 ++++
+ src/main/resources/application.properties          |  19 ++
+ .../studentapi/StudentControllerTests.java         | 101 +++++++++
+ src/test/resources/application.properties          |  12 +
+ 29 files changed, 1181 insertions(+)

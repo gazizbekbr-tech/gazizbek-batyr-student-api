@@ -1,0 +1,105 @@
+
+==================== Task 2.2 Branching and feature development - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git switch -c feature/gazizbek-batyr-crud
+Switched to a new branch 'feature/gazizbek-batyr-crud'
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git branch
+* feature/gazizbek-batyr-crud
+  main
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git status --short
+ M src/main/java/kz/gazizbek/studentapi/student/StudentController.java
+ M src/main/java/kz/gazizbek/studentapi/student/StudentRequest.java
+ M src/main/java/kz/gazizbek/studentapi/student/StudentService.java
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git diff --stat
+ .../kz/gazizbek/studentapi/student/StudentController.java  |  6 ++++++
+ .../kz/gazizbek/studentapi/student/StudentRequest.java     |  2 +-
+ .../kz/gazizbek/studentapi/student/StudentService.java     | 14 ++++++++++++++
+ 3 files changed, 21 insertions(+), 1 deletion(-)
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ ./gradlew compileJava -q --console=plain && echo 'compileJava OK'
+compileJava OK
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add src/main
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m "Implement student update (PUT) endpoint - Gazizbek Batyr" && git log --oneline -1
+a2b8d8e Implement student update (PUT) endpoint - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ ./gradlew test --console=plain 2>&1 | grep -E 'StudentControllerTests >|BUILD|tests completed'
+StudentControllerTests > createsAndReadsStudent() PASSED
+StudentControllerTests > infoShowsStudentName() PASSED
+StudentControllerTests > rejectsInvalidStudent() PASSED
+StudentControllerTests > updatesStudent() PASSED
+StudentControllerTests > returns404ForMissingStudent() PASSED
+StudentControllerTests > deletesStudent() PASSED
+StudentControllerTests > rejectsDuplicateEmail() PASSED
+StudentControllerTests > updateOfMissingStudentReturns404() PASSED
+BUILD SUCCESSFUL in 4s
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add src/test
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m "Add tests for student update and missing-student 404 - Gazizbek Batyr" && git log --oneline -1
+709ed4b Add tests for student update and missing-student 404 - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git diff README.md
+diff --git a/README.md b/README.md
+index f8a14a9..ab0f1ec 100644
+--- a/README.md
++++ b/README.md
+@@ -42,10 +42,23 @@ gazizbek-batyr-student-api/
+ | GET    | `/api/gazizbek-batyr/students`        | List all students     |
+ | GET    | `/api/gazizbek-batyr/students/{id}`   | Get one student       |
+ | POST   | `/api/gazizbek-batyr/students`        | Create a student      |
++| PUT    | `/api/gazizbek-batyr/students/{id}`   | Update a student      |
+ | DELETE | `/api/gazizbek-batyr/students/{id}`   | Delete a student      |
+ 
+ A missing student returns `404 Not Found` with a JSON error body.
+ 
++## Change log
++
++### Student update operation (feature/gazizbek-batyr-crud, author: Batyr Gazizbek)
++
++- Added `PUT /api/gazizbek-batyr/students/{id}` which replaces first name, last name,
++  email, group and course of an existing student.
++- The request body is validated (`@Valid`): empty names, invalid emails or a course
++  outside 1-4 return `400 Bad Request`.
++- Updating a student that does not exist returns `404 Not Found`; changing the email
++  to one that already belongs to another student returns `409 Conflict`.
++- Covered by `updatesStudent` and `updateOfMissingStudentReturns404` tests.
++
+ ## Build and test
+ 
+ ```bash
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add README.md
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m "Document student update operation in README - Gazizbek Batyr" && git log --oneline -1
+b33a645 Document student update operation in README - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git log --oneline main..feature/gazizbek-batyr-crud
+b33a645 Document student update operation in README - Gazizbek Batyr
+709ed4b Add tests for student update and missing-student 404 - Gazizbek Batyr
+a2b8d8e Implement student update (PUT) endpoint - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git switch main
+Switched to branch 'main'
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git merge --no-ff feature/gazizbek-batyr-crud -m "Merge feature/gazizbek-batyr-crud: student update operation"
+Merge made by the 'ort' strategy.
+ README.md                                            | 13 +++++++++++++
+ .../studentapi/student/StudentController.java        |  6 ++++++
+ .../gazizbek/studentapi/student/StudentRequest.java  |  2 +-
+ .../gazizbek/studentapi/student/StudentService.java  | 14 ++++++++++++++
+ .../gazizbek/studentapi/StudentControllerTests.java  | 20 ++++++++++++++++++++
+ 5 files changed, 54 insertions(+), 1 deletion(-)
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git log --oneline --graph --all
+*   aaba98a Merge feature/gazizbek-batyr-crud: student update operation
+|\  
+| * b33a645 Document student update operation in README - Gazizbek Batyr
+| * 709ed4b Add tests for student update and missing-student 404 - Gazizbek Batyr
+| * a2b8d8e Implement student update (PUT) endpoint - Gazizbek Batyr
+|/  
+* dcb5672 Initial commit: Gazizbek Batyr Student API

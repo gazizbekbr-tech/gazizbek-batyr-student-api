@@ -1,0 +1,53 @@
+
+==================== Task 2.4 Remote URL, history, branches and tags - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git fetch -q --all --tags; git remote -v
+origin	https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git (fetch)
+origin	https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git (push)
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git log --oneline --graph --all --decorate
+* b297663 (HEAD -> main, origin/main) Document Docker, Compose, Jenkins CI and secrets handling - Gazizbek Batyr
+| * 3c43fb6 (origin/test/gazizbek-batyr-pipeline-failure, test/gazizbek-batyr-pipeline-failure) Fix info test expectation after controlled failure - Gazizbek Batyr
+| * 53de29e Controlled error: wrong expected student name in info test - Gazizbek Batyr
+|/  
+* 7fb72c2 Build only main and test/* branches in Jenkins - Gazizbek Batyr
+* 252abe9 Add Jenkins pipeline and local Jenkins setup with Docker agent - Gazizbek Batyr
+* 84768cd Bump version to 1.1.0 and order Student JSON fields - Gazizbek Batyr
+* b653ad3 (tag: v1.0-gazizbek-batyr) Add Docker Compose with PostgreSQL, volume, network and health check - Gazizbek Batyr
+* 4de75f3 Add multi-stage Dockerfile for gazizbek-batyr-student-api image - Gazizbek Batyr
+*   290b6cc Merge documentation branch, resolve README status conflict - Gazizbek Batyr
+|\  
+| * 44aa2ce (origin/feature/gazizbek-batyr-documentation, feature/gazizbek-batyr-documentation) Add curl usage examples to README - Gazizbek Batyr
+* | cb4af07 Update project status after CRUD merge - Gazizbek Batyr
+|/  
+*   aaba98a Merge feature/gazizbek-batyr-crud: student update operation
+|\  
+| * b33a645 (origin/feature/gazizbek-batyr-crud, feature/gazizbek-batyr-crud) Document student update operation in README - Gazizbek Batyr
+| * 709ed4b Add tests for student update and missing-student 404 - Gazizbek Batyr
+| * a2b8d8e Implement student update (PUT) endpoint - Gazizbek Batyr
+|/  
+* dcb5672 Initial commit: Gazizbek Batyr Student API
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git branch -a
+  feature/gazizbek-batyr-crud
+  feature/gazizbek-batyr-documentation
+* main
+  test/gazizbek-batyr-pipeline-failure
+  remotes/origin/feature/gazizbek-batyr-crud
+  remotes/origin/feature/gazizbek-batyr-documentation
+  remotes/origin/main
+  remotes/origin/test/gazizbek-batyr-pipeline-failure
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git tag -n
+v1.0-gazizbek-batyr Release 1.0 of Gazizbek Batyr Student API (CRUD + Docker Compose)
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git ls-remote --heads --tags origin
+b33a645c15eb650e20023e3e2068cf53dc827928	refs/heads/feature/gazizbek-batyr-crud
+44aa2ceb0b0a8b06d2458dbe9d372451eda6fcb8	refs/heads/feature/gazizbek-batyr-documentation
+b2976631bb52426a0c00e952762bc793dc0bb6dc	refs/heads/main
+3c43fb6a29022e309eb7ffe6d22a7d4c9749d25f	refs/heads/test/gazizbek-batyr-pipeline-failure
+555c772f7d1ec335bff11cbcdfc28dacad6d6e0c	refs/tags/v1.0-gazizbek-batyr
+b653ad3521645dd0269f6e2018d113dda991c6ee	refs/tags/v1.0-gazizbek-batyr^{}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git log --format='%h %s' | wc -l
+      14

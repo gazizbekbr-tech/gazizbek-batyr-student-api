@@ -1,0 +1,17 @@
+Log analysis for Batyr Gazizbek - 2026-10-29 06:07:16
+Search: grep -n 'Gazizbek' logs/Gazizbek_Batyr_system_report.log
+2: System report - Batyr Gazizbek
+4:Student full name : Batyr Gazizbek
+38:Report finished for Batyr Gazizbek
+41: System report - Batyr Gazizbek
+43:Student full name : Batyr Gazizbek
+77:Report finished for Batyr Gazizbek
+Total matches: 6
+
+Difference between > and >> (Batyr Gazizbek):
+  >   redirects command output to a file and OVERWRITES it (the file is truncated
+      first or created if it does not exist).
+  >>  redirects command output to a file and APPENDS it to the end, the old
+      content is kept. That is why the system report script uses tee -a (append)
+      and the log keeps every run, while 'echo ... > file' started this analysis
+      file from scratch.

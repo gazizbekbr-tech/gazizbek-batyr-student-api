@@ -1,0 +1,103 @@
+
+==================== Task 2.3 Conflict resolution - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git switch -c feature/gazizbek-batyr-documentation
+Switched to a new branch 'feature/gazizbek-batyr-documentation'
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ grep -n 'Project status' README.md
+5:Project status: initial version with create, read and delete operations.
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git diff --stat
+ README.md | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -am 'Add curl usage examples to README - Gazizbek Batyr' && git log --oneline -1
+44aa2ce Add curl usage examples to README - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git switch main
+Switched to branch 'main'
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git diff
+diff --git a/README.md b/README.md
+index ab0f1ec..e073489 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ 
+ Spring Boot CRUD REST API for students. DevOps midterm project of **Batyr Gazizbek**.
+ 
+-Project status: initial version with create, read and delete operations.
++Project status: full CRUD (create, read, update, delete) is implemented.
+ 
+ | Item            | Value                            |
+ |-----------------|----------------------------------|
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -am 'Update project status after CRUD merge - Gazizbek Batyr' && git log --oneline -1
+cb4af07 Update project status after CRUD merge - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git merge feature/gazizbek-batyr-documentation
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git status
+On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ grep -n -A4 '<<<<<<<' README.md
+5:<<<<<<< HEAD
+6-Project status: full CRUD (create, read, update, delete) is implemented.
+7-=======
+8-Project status: API documented with curl examples by Batyr Gazizbek.
+9->>>>>>> feature/gazizbek-batyr-documentation
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ # README.md edited manually: conflict markers removed, both changes combined into one line
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ sed -n '3,6p' README.md
+Spring Boot CRUD REST API for students. DevOps midterm project of **Batyr Gazizbek**.
+
+Project status: full CRUD (create, read, update, delete) is implemented and documented with curl examples by Batyr Gazizbek.
+
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ grep -c -E '^(<<<<<<<|=======|>>>>>>>)' README.md || true
+0
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add README.md
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git status --short
+M  README.md
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m "Merge documentation branch, resolve README status conflict - Gazizbek Batyr" && git log --oneline -1
+290b6cc Merge documentation branch, resolve README status conflict - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git log --oneline --graph --all
+*   290b6cc Merge documentation branch, resolve README status conflict - Gazizbek Batyr
+|\  
+| * 44aa2ce Add curl usage examples to README - Gazizbek Batyr
+* | cb4af07 Update project status after CRUD merge - Gazizbek Batyr
+|/  
+*   aaba98a Merge feature/gazizbek-batyr-crud: student update operation
+|\  
+| * b33a645 Document student update operation in README - Gazizbek Batyr
+| * 709ed4b Add tests for student update and missing-student 404 - Gazizbek Batyr
+| * a2b8d8e Implement student update (PUT) endpoint - Gazizbek Batyr
+|/  
+* dcb5672 Initial commit: Gazizbek Batyr Student API
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git log --format='%h | %an | %ad | %s' --date=format:'%Y-%m-%d %H:%M'
+290b6cc | Batyr Gazizbek | 2026-10-29 05:56 | Merge documentation branch, resolve README status conflict - Gazizbek Batyr
+cb4af07 | Batyr Gazizbek | 2026-10-29 05:56 | Update project status after CRUD merge - Gazizbek Batyr
+44aa2ce | Batyr Gazizbek | 2026-10-29 05:56 | Add curl usage examples to README - Gazizbek Batyr
+aaba98a | Batyr Gazizbek | 2026-10-29 05:55 | Merge feature/gazizbek-batyr-crud: student update operation
+b33a645 | Batyr Gazizbek | 2026-10-29 05:55 | Document student update operation in README - Gazizbek Batyr
+709ed4b | Batyr Gazizbek | 2026-10-29 05:55 | Add tests for student update and missing-student 404 - Gazizbek Batyr
+a2b8d8e | Batyr Gazizbek | 2026-10-29 05:55 | Implement student update (PUT) endpoint - Gazizbek Batyr
+dcb5672 | Batyr Gazizbek | 2026-10-29 05:54 | Initial commit: Gazizbek Batyr Student API

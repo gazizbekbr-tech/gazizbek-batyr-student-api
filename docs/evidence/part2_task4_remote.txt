@@ -1,0 +1,32 @@
+
+==================== Task 2.4 Remote repository - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ gh repo create gazizbek-batyr-student-api --public --description "Spring Boot student CRUD API with Docker, PostgreSQL and Jenkins - Batyr Gazizbek, IT2-2301" --source . --remote origin
+https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git remote -v
+origin	https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git (fetch)
+origin	https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git (push)
+
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git config credential.helper '!gh auth git-credential'   # use the GitHub CLI login for HTTPS pushes
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git push -u origin main
+To https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git push -u origin feature/gazizbek-batyr-crud feature/gazizbek-batyr-documentation
+To https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ * [new branch]      feature/gazizbek-batyr-crud -> feature/gazizbek-batyr-crud
+ * [new branch]      feature/gazizbek-batyr-documentation -> feature/gazizbek-batyr-documentation
+branch 'feature/gazizbek-batyr-crud' set up to track 'origin/feature/gazizbek-batyr-crud'.
+branch 'feature/gazizbek-batyr-documentation' set up to track 'origin/feature/gazizbek-batyr-documentation'.
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git branch -a
+  feature/gazizbek-batyr-crud
+  feature/gazizbek-batyr-documentation
+* main
+  remotes/origin/feature/gazizbek-batyr-crud
+  remotes/origin/feature/gazizbek-batyr-documentation
+  remotes/origin/main

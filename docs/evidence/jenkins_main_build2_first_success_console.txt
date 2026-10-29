@@ -1,0 +1,393 @@
+Branch indexing
+ > git rev-parse --resolve-git-dir /var/jenkins_home/caches/git-3da2376ac490a2ab99b811930daffc54/.git # timeout=10
+Setting origin to https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ > git config remote.origin.url https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git # timeout=10
+Fetching origin...
+Fetching upstream changes from origin
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git config --get remote.origin.url # timeout=10
+ > git fetch --no-tags --force --progress -- origin +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/feature/gazizbek-batyr-crud
+Seen branch in repository origin/feature/gazizbek-batyr-documentation
+Seen branch in repository origin/main
+Seen 3 remote branches
+Obtained Jenkinsfile from 252abe9da1824901791e0c2f5fca2c375099b02b
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on gazizbek-batyr-docker-agent in /home/jenkins/agent/workspace/Gazizbek_Batyr_Student_API_main
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ > git init /home/jenkins/agent/workspace/Gazizbek_Batyr_Student_API_main # timeout=10
+Fetching upstream changes from https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --no-tags --force --progress -- https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision 252abe9da1824901791e0c2f5fca2c375099b02b (main)
+Commit message: "Add Jenkins pipeline and local Jenkins setup with Docker agent - Gazizbek Batyr"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+ > git config remote.origin.url https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 252abe9da1824901791e0c2f5fca2c375099b02b # timeout=10
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timestamps
+[Pipeline] {
+[Pipeline] timeout
+[2026-10-29T01:13:08.907Z] Timeout set to expire in 30 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Tool Install)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] checkout
+[2026-10-29T01:13:09.100Z] Selected Git installation does not exist. Using Default
+[2026-10-29T01:13:09.100Z] The recommended git tool is: NONE
+[2026-10-29T01:13:09.121Z] No credentials specified
+[2026-10-29T01:13:09.125Z] Fetching changes from the remote Git repository
+[2026-10-29T01:13:09.132Z] Fetching without tags
+[2026-10-29T01:13:09.843Z] Checking out Revision 252abe9da1824901791e0c2f5fca2c375099b02b (main)
+[2026-10-29T01:13:09.852Z] Commit message: "Add Jenkins pipeline and local Jenkins setup with Docker agent - Gazizbek Batyr"
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
+[2026-10-29T01:13:09.122Z]  > git rev-parse --resolve-git-dir /home/jenkins/agent/workspace/Gazizbek_Batyr_Student_API_main/.git # timeout=10
+[2026-10-29T01:13:09.128Z]  > git config remote.origin.url https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git # timeout=10
+[2026-10-29T01:13:09.134Z] Fetching upstream changes from https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+[2026-10-29T01:13:09.135Z]  > git --version # timeout=10
+[2026-10-29T01:13:09.138Z]  > git --version # 'git version 2.47.3'
+[2026-10-29T01:13:09.138Z]  > git fetch --no-tags --force --progress -- https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-29T01:13:09.844Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-29T01:13:09.846Z]  > git checkout -f 252abe9da1824901791e0c2f5fca2c375099b02b # timeout=10
+[2026-10-29T01:13:10.206Z] + sed -n s/^version = '\(.*\)'/\1/p build.gradle
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
+[2026-10-29T01:13:10.535Z] + echo ==================================================
+[2026-10-29T01:13:10.535Z] ==================================================
+[2026-10-29T01:13:10.535Z] + echo  Pipeline of Batyr Gazizbek (IT2-2301, ID 38091)
+[2026-10-29T01:13:10.535Z]  Pipeline of Batyr Gazizbek (IT2-2301, ID 38091)
+[2026-10-29T01:13:10.535Z] + echo ==================================================
+[2026-10-29T01:13:10.535Z] ==================================================
+[2026-10-29T01:13:10.535Z] + echo Branch      : main
+[2026-10-29T01:13:10.535Z] Branch      : main
+[2026-10-29T01:13:10.535Z] + git log -1 --format=Commit      : %h %s (%an)
+[2026-10-29T01:13:10.535Z] Commit      : 252abe9 Add Jenkins pipeline and local Jenkins setup with Docker agent - Gazizbek Batyr (Batyr Gazizbek)
+[2026-10-29T01:13:10.535Z] + echo App version : 1.1.0
+[2026-10-29T01:13:10.535Z] App version : 1.1.0
+[2026-10-29T01:13:10.535Z] + echo Docker image: gazizbek-batyr-student-api:v1.1-gazizbek-batyr
+[2026-10-29T01:13:10.535Z] Docker image: gazizbek-batyr-student-api:v1.1-gazizbek-batyr
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] echo
+[2026-10-29T01:13:10.631Z] Compiling the Spring Boot application of Batyr Gazizbek
+[Pipeline] sh
+[2026-10-29T01:13:10.911Z] + chmod +x gradlew
+[2026-10-29T01:13:10.911Z] + ./gradlew --no-daemon --console=plain clean compileJava
+[2026-10-29T01:13:10.911Z] Fetching distribution.
+[2026-10-29T01:13:10.911Z] Downloading https://services.gradle.org/distributions/gradle-9.8.2-bin.zip
+[2026-10-29T01:15:42.140Z] ..............10%..............20%...............30%..............40%...............50%..............60%...............70%..............80%...............90%..............100%
+[2026-10-29T01:15:43.504Z] 
+[2026-10-29T01:15:43.504Z] Welcome to Gradle 9.8.2!
+[2026-10-29T01:15:43.504Z] 
+[2026-10-29T01:15:43.504Z] Here are the highlights of this release:
+[2026-10-29T01:15:43.504Z]  - Java 27 support
+[2026-10-29T01:15:43.504Z]  - Maven mirror settings reuse
+[2026-10-29T01:15:43.504Z]  - Linked problem locations in build output
+[2026-10-29T01:15:43.504Z] 
+[2026-10-29T01:15:43.504Z] For more details see https://docs.gradle.org/9.8.2/release-notes.html
+[2026-10-29T01:15:43.504Z] 
+[2026-10-29T01:15:43.504Z] To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+[2026-10-29T01:15:44.067Z] Daemon will be stopped at the end of the build 
+[2026-10-29T01:16:01.628Z] > Task :clean
+[2026-10-29T01:16:11.305Z] > Task :compileJava
+[2026-10-29T01:16:11.305Z] 
+[2026-10-29T01:16:11.305Z] BUILD SUCCESSFUL in 2m 59s
+[2026-10-29T01:16:11.305Z] 2 actionable tasks: 2 executed
+[2026-10-29T01:16:11.305Z] Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.8.2/userguide/configuration_cache_enabling.html
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] echo
+[2026-10-29T01:16:11.517Z] Running automated tests for Batyr Gazizbek
+[Pipeline] sh
+[2026-10-29T01:16:11.793Z] + ./gradlew --no-daemon --console=plain test
+[2026-10-29T01:16:12.047Z] To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+[2026-10-29T01:16:12.615Z] Daemon will be stopped at the end of the build 
+[2026-10-29T01:16:17.607Z] > Task :compileJava UP-TO-DATE
+[2026-10-29T01:16:17.607Z] > Task :bootBuildInfo
+[2026-10-29T01:16:17.607Z] > Task :processResources
+[2026-10-29T01:16:17.607Z] > Task :classes
+[2026-10-29T01:16:20.866Z] > Task :compileTestJava
+[2026-10-29T01:16:20.866Z] > Task :processTestResources
+[2026-10-29T01:16:20.866Z] > Task :testClasses
+[2026-10-29T01:16:25.865Z] 
+[2026-10-29T01:16:25.865Z] > Task :test
+[2026-10-29T01:16:25.865Z] 
+[2026-10-29T01:16:25.865Z] StudentControllerTests > createsAndReadsStudent() PASSED
+[2026-10-29T01:16:25.865Z] 
+[2026-10-29T01:16:25.865Z] StudentControllerTests > infoShowsStudentName() PASSED
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] StudentControllerTests > rejectsInvalidStudent() PASSED
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] StudentControllerTests > updatesStudent() PASSED
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] StudentControllerTests > returns404ForMissingStudent() PASSED
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] StudentControllerTests > deletesStudent() PASSED
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] StudentControllerTests > rejectsDuplicateEmail() PASSED
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] StudentControllerTests > updateOfMissingStudentReturns404() PASSED
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] 2026-10-29T01:16:25.605Z  INFO 689 --- [gazizbek-batyr-student-api] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-10-29T01:16:25.866Z] 2026-10-29T01:16:25.607Z  INFO 689 --- [gazizbek-batyr-student-api] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+[2026-10-29T01:16:25.866Z] 2026-10-29T01:16:25.608Z  INFO 689 --- [gazizbek-batyr-student-api] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] [Incubating] Problems report is available at: file:///home/jenkins/agent/workspace/Gazizbek_Batyr_Student_API_main/build/reports/problems/problems-report.html
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+[2026-10-29T01:16:25.866Z] 
+[2026-10-29T01:16:25.866Z] BUILD SUCCESSFUL in 14s
+[2026-10-29T01:16:25.866Z] 6 actionable tasks: 5 executed, 1 up-to-date
+[2026-10-29T01:16:25.866Z] Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.8.2/userguide/configuration_cache_enabling.html
+Post stage
+[Pipeline] junit
+[2026-10-29T01:16:26.038Z] Recording test results
+[2026-10-29T01:16:26.823Z] [Checks API] No suitable checks publisher found.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Build)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] echo
+[2026-10-29T01:16:26.928Z] Building Docker image gazizbek-batyr-student-api:v1.1-gazizbek-batyr for Batyr Gazizbek
+[Pipeline] sh
+[2026-10-29T01:16:27.194Z] + echo main
+[2026-10-29T01:16:27.194Z] + tr / -
+[2026-10-29T01:16:27.194Z] + docker build --build-arg APP_VERSION=1.1.0 -t gazizbek-batyr-student-api:v1.1-gazizbek-batyr -t gazizbek-batyr-student-api:build-2-main .
+[2026-10-29T01:16:27.452Z] #0 building with "default" instance using docker driver
+[2026-10-29T01:16:27.452Z] 
+[2026-10-29T01:16:27.452Z] #1 [internal] load build definition from Dockerfile
+[2026-10-29T01:16:27.452Z] #1 transferring dockerfile: 1.50kB done
+[2026-10-29T01:16:27.452Z] #1 DONE 0.0s
+[2026-10-29T01:16:27.452Z] 
+[2026-10-29T01:16:27.452Z] #2 [internal] load metadata for docker.io/library/eclipse-temurin:21-jre
+[2026-10-29T01:16:28.391Z] #2 DONE 1.1s
+[2026-10-29T01:16:28.391Z] 
+[2026-10-29T01:16:28.391Z] #3 [internal] load metadata for docker.io/library/eclipse-temurin:21-jdk
+[2026-10-29T01:16:28.645Z] #3 DONE 1.1s
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #4 [internal] load .dockerignore
+[2026-10-29T01:16:28.645Z] #4 transferring context: 115B done
+[2026-10-29T01:16:28.645Z] #4 DONE 0.0s
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #5 [build 1/7] FROM docker.io/library/eclipse-temurin:21-jdk@sha256:5d90b26c0784ccf55af55f97cbcf7f3969c66a06299c93bdc72649219942a48f
+[2026-10-29T01:16:28.645Z] #5 resolve docker.io/library/eclipse-temurin:21-jdk@sha256:5d90b26c0784ccf55af55f97cbcf7f3969c66a06299c93bdc72649219942a48f done
+[2026-10-29T01:16:28.645Z] #5 DONE 0.0s
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #6 [stage-1 1/4] FROM docker.io/library/eclipse-temurin:21-jre@sha256:f37956012e0cb88400e5b3689aeae2d2d735364c1922ae2225536163b5a99f56
+[2026-10-29T01:16:28.645Z] #6 resolve docker.io/library/eclipse-temurin:21-jre@sha256:f37956012e0cb88400e5b3689aeae2d2d735364c1922ae2225536163b5a99f56 done
+[2026-10-29T01:16:28.645Z] #6 DONE 0.0s
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #7 [internal] load build context
+[2026-10-29T01:16:28.645Z] #7 transferring context: 79.90kB done
+[2026-10-29T01:16:28.645Z] #7 DONE 0.0s
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #8 [build 2/7] WORKDIR /workspace
+[2026-10-29T01:16:28.645Z] #8 CACHED
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #9 [build 3/7] COPY gradlew settings.gradle build.gradle ./
+[2026-10-29T01:16:28.645Z] #9 CACHED
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #10 [build 4/7] COPY gradle ./gradle
+[2026-10-29T01:16:28.645Z] #10 CACHED
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #11 [build 5/7] RUN chmod +x gradlew && ./gradlew --no-daemon dependencies > /dev/null
+[2026-10-29T01:16:28.645Z] #11 CACHED
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #12 [build 6/7] COPY src ./src
+[2026-10-29T01:16:28.645Z] #12 DONE 0.0s
+[2026-10-29T01:16:28.645Z] 
+[2026-10-29T01:16:28.645Z] #13 [build 7/7] RUN ./gradlew --no-daemon clean bootJar -x test
+[2026-10-29T01:16:29.209Z] #13 0.736 To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+[2026-10-29T01:16:30.027Z] #13 1.435 Daemon will be stopped at the end of the build 
+[2026-10-29T01:16:33.298Z] #13 4.537 > Task :clean
+[2026-10-29T01:16:42.973Z] #13 14.49 > Task :compileJava
+[2026-10-29T01:16:42.973Z] #13 14.49 > Task :bootBuildInfo
+[2026-10-29T01:16:42.973Z] #13 14.49 > Task :processResources
+[2026-10-29T01:16:42.973Z] #13 14.49 > Task :classes
+[2026-10-29T01:16:42.973Z] #13 14.49 > Task :resolveMainClassName
+[2026-10-29T01:16:45.238Z] #13 16.40 > Task :bootJar
+[2026-10-29T01:16:45.238Z] #13 16.40 
+[2026-10-29T01:16:45.238Z] #13 16.40 BUILD SUCCESSFUL in 16s
+[2026-10-29T01:16:45.238Z] #13 16.40 6 actionable tasks: 6 executed
+[2026-10-29T01:16:45.238Z] #13 16.40 Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.8.2/userguide/configuration_cache_enabling.html
+[2026-10-29T01:16:45.238Z] #13 DONE 16.6s
+[2026-10-29T01:16:45.238Z] 
+[2026-10-29T01:16:45.238Z] #14 [stage-1 2/4] WORKDIR /app
+[2026-10-29T01:16:45.238Z] #14 CACHED
+[2026-10-29T01:16:45.238Z] 
+[2026-10-29T01:16:45.238Z] #15 [stage-1 3/4] RUN groupadd --system spring && useradd --system --gid spring --no-create-home spring
+[2026-10-29T01:16:45.238Z] #15 CACHED
+[2026-10-29T01:16:45.238Z] 
+[2026-10-29T01:16:45.238Z] #16 [stage-1 4/4] COPY --from=build /workspace/build/libs/gazizbek-batyr-student-api.jar app.jar
+[2026-10-29T01:16:45.238Z] #16 DONE 0.1s
+[2026-10-29T01:16:45.238Z] 
+[2026-10-29T01:16:45.238Z] #17 exporting to image
+[2026-10-29T01:16:45.238Z] #17 exporting layers
+[2026-10-29T01:16:46.177Z] #17 exporting layers 1.3s done
+[2026-10-29T01:16:46.432Z] #17 exporting manifest sha256:37f403dbcd67de273c5510330699f6c57d890a2979c47c4b8f5da856e9b56864 done
+[2026-10-29T01:16:46.432Z] #17 exporting config sha256:aa2b23fecbb0deb82c0bd42e681ee7d2e7de095fefea09b0ec4fed771a71e259 done
+[2026-10-29T01:16:46.432Z] #17 exporting attestation manifest sha256:77035d6da78d5ee3d8ed629372797aba7af9d24b0f06017b6278937c2a569e52 0.0s done
+[2026-10-29T01:16:46.432Z] #17 exporting manifest list sha256:86f6040fd649fd5c7e82c52abb615386f0a01de0de44c000e9a4f1db75c23da3 done
+[2026-10-29T01:16:46.432Z] #17 naming to docker.io/library/gazizbek-batyr-student-api:v1.1-gazizbek-batyr done
+[2026-10-29T01:16:46.432Z] #17 unpacking to docker.io/library/gazizbek-batyr-student-api:v1.1-gazizbek-batyr
+[2026-10-29T01:16:46.432Z] #17 unpacking to docker.io/library/gazizbek-batyr-student-api:v1.1-gazizbek-batyr 0.2s done
+[2026-10-29T01:16:46.691Z] #17 naming to docker.io/library/gazizbek-batyr-student-api:build-2-main done
+[2026-10-29T01:16:46.691Z] #17 unpacking to docker.io/library/gazizbek-batyr-student-api:build-2-main done
+[2026-10-29T01:16:46.691Z] #17 DONE 1.5s
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
+[2026-10-29T01:16:47.099Z] + echo Checking that the image exists
+[2026-10-29T01:16:47.099Z] Checking that the image exists
+[2026-10-29T01:16:47.099Z] + docker image inspect gazizbek-batyr-student-api:v1.1-gazizbek-batyr --format Image {{index .RepoTags 0}} | id {{.Id}} | created {{.Created}} | size {{.Size}} bytes
+[2026-10-29T01:16:47.099Z] Image gazizbek-batyr-student-api:build-2-main | id sha256:86f6040fd649fd5c7e82c52abb615386f0a01de0de44c000e9a4f1db75c23da3 | created 2026-10-29T06:16:44.903251876+05:00 | size 162809901 bytes
+[2026-10-29T01:16:47.099Z] + docker images gazizbek-batyr-student-api
+[2026-10-29T01:16:47.099Z] IMAGE                                            ID             DISK USAGE   CONTENT SIZE   EXTRA
+[2026-10-29T01:16:47.099Z] gazizbek-batyr-student-api:build-2-main          86f6040fd649        580MB          163MB        
+[2026-10-29T01:16:47.099Z] gazizbek-batyr-student-api:v1.0-gazizbek-batyr   f9027af8be52        580MB          163MB        
+[2026-10-29T01:16:47.099Z] gazizbek-batyr-student-api:v1.1-gazizbek-batyr   86f6040fd649        580MB          163MB        
+[Pipeline] withCredentials
+[2026-10-29T01:16:47.165Z] Masking supported pattern matches of $DB_PASSWORD
+[Pipeline] {
+[Pipeline] sh
+[2026-10-29T01:16:47.678Z] + echo main-2
+[2026-10-29T01:16:47.678Z] + tr / -
+[2026-10-29T01:16:47.678Z] + SUFFIX=main-2
+[2026-10-29T01:16:47.678Z] + NET=gb-verify-main-2
+[2026-10-29T01:16:47.678Z] + docker network create gb-verify-main-2
+[2026-10-29T01:16:47.678Z] fdbb472bdf4587a9fa332957bb833019fd127a7224bc306b1c3930ee885b4573
+[2026-10-29T01:16:47.679Z] + docker run -d --name gb-verify-db-main-2 --network gb-verify-main-2 --network-alias verify-db -e POSTGRES_DB=verify -e POSTGRES_USER=verify -e POSTGRES_PASSWORD=**** postgres:17-alpine
+[2026-10-29T01:16:47.679Z] 1409a392cacc6c01e0ed9010ba4b7817429da5611c3e42efab34f539fd88d445
+[2026-10-29T01:16:47.679Z] + docker exec gb-verify-db-main-2 pg_isready -U verify -d verify
+[2026-10-29T01:16:47.679Z] /var/run/postgresql:5432 - no response
+[2026-10-29T01:16:47.679Z] + sleep 1
+[2026-10-29T01:16:49.049Z] + docker exec gb-verify-db-main-2 pg_isready -U verify -d verify
+[2026-10-29T01:16:49.049Z] /var/run/postgresql:5432 - accepting connections
+[2026-10-29T01:16:49.049Z] + docker run -d --name gb-verify-app-main-2 --network gb-verify-main-2 --network-alias verify-app -e SPRING_DATASOURCE_URL=jdbc:postgresql://verify-db:5432/verify -e SPRING_DATASOURCE_USERNAME=verify -e SPRING_DATASOURCE_PASSWORD=**** gazizbek-batyr-student-api:v1.1-gazizbek-batyr
+[2026-10-29T01:16:49.049Z] 925526e4f5fb86683b15127fd4c5b8ecda9ff0ba74faa1cac218935356ffd1af
+[2026-10-29T01:16:49.049Z] + seq 1 60
+[2026-10-29T01:16:49.049Z] + docker exec gb-verify-db-main-2 wget -qO /tmp/info.json http://verify-app:8091/
+[2026-10-29T01:16:49.049Z] wget: can't connect to remote host (172.20.0.3): Connection refused
+[2026-10-29T01:16:49.049Z] + sleep 1
+[2026-10-29T01:16:50.164Z] + docker exec gb-verify-db-main-2 wget -qO /tmp/info.json http://verify-app:8091/
+[2026-10-29T01:16:50.164Z] wget: can't connect to remote host (172.20.0.3): Connection refused
+[2026-10-29T01:16:50.164Z] + sleep 1
+[2026-10-29T01:16:51.093Z] + docker exec gb-verify-db-main-2 wget -qO /tmp/info.json http://verify-app:8091/
+[2026-10-29T01:16:51.095Z] wget: can't connect to remote host (172.20.0.3): Connection refused
+[2026-10-29T01:16:51.095Z] + sleep 1
+[2026-10-29T01:16:52.072Z] + docker exec gb-verify-db-main-2 wget -qO /tmp/info.json http://verify-app:8091/
+[2026-10-29T01:16:52.330Z] wget: can't connect to remote host (172.20.0.3): Connection refused
+[2026-10-29T01:16:52.330Z] + sleep 1
+[2026-10-29T01:16:53.272Z] + docker exec gb-verify-db-main-2 wget -qO /tmp/info.json http://verify-app:8091/
+[2026-10-29T01:16:53.272Z] + break
+[2026-10-29T01:16:53.272Z] + docker exec gb-verify-db-main-2 cat /tmp/info.json
+[2026-10-29T01:16:53.272Z] {"application":"gazizbek-batyr-student-api","student":"Batyr Gazizbek","group":"IT2-2301","studentId":"38091","version":"1.1.0","studentsEndpoint":"/api/gazizbek-batyr/students"}+ echo
+[2026-10-29T01:16:53.272Z] 
+[2026-10-29T01:16:53.272Z] + docker exec gb-verify-db-main-2 grep -q "student":"Batyr Gazizbek" /tmp/info.json
+[2026-10-29T01:16:53.533Z] + docker exec gb-verify-db-main-2 wget -qO- http://verify-app:8091/api/gazizbek-batyr/students
+[2026-10-29T01:16:53.534Z] [{"id":1,"firstName":"Batyr","lastName":"Gazizbek","email":"batyr.gazizbek@student.kz","groupName":"IT2-2301","course":3,"createdAt":"2026-10-29T01:16:52.517923Z","updatedAt":"2026-10-29T01:16:52.517923Z"},{"id":2,"firstName":"Aruzhan","lastName":"Seitkali","email":"aruzhan.seitkali@student.kz","groupName":"IT2-2301","course":3,"createdAt":"2026-10-29T01:16:52.531180Z","updatedAt":"2026-10-29T01:16:52.531180Z"},{"id":3,"firstName":"Nurlan","lastName":"Abenov","email":"nurlan.abenov@student.kz","groupName":"IT2-2302","course":2,"createdAt":"2026-10-29T01:16:52.532580Z","updatedAt":"2026-10-29T01:16:52.532580Z"}]+ echo
+[2026-10-29T01:16:53.534Z] 
+[2026-10-29T01:16:53.534Z] + echo VERIFY OK: gazizbek-batyr-student-api:v1.1-gazizbek-batyr starts and answers for Batyr Gazizbek
+[2026-10-29T01:16:53.534Z] VERIFY OK: gazizbek-batyr-student-api:v1.1-gazizbek-batyr starts and answers for Batyr Gazizbek
+[Pipeline] }
+[Pipeline] // withCredentials
+Post stage
+[Pipeline] sh
+[2026-10-29T01:16:53.845Z] + echo main-2
+[2026-10-29T01:16:53.845Z] + tr / -
+[2026-10-29T01:16:53.845Z] + SUFFIX=main-2
+[2026-10-29T01:16:53.845Z] + docker rm -f gb-verify-app-main-2 gb-verify-db-main-2
+[2026-10-29T01:16:53.845Z] + docker network rm gb-verify-main-2
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+[2026-10-29T01:16:53.910Z] SUCCESS: pipeline of Batyr Gazizbek built gazizbek-batyr-student-api:v1.1-gazizbek-batyr
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // timestamps
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

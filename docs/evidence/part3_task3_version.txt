@@ -1,0 +1,75 @@
+
+==================== Task 3.3 Rebuild the image after modifying the application version - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git diff
+diff --git a/build.gradle b/build.gradle
+index 24efe5d..0af0291 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -5,7 +5,7 @@ plugins {
+ }
+ 
+ group = 'kz.gazizbek'
+-version = '1.0.0'
++version = '1.1.0'
+ description = 'Student CRUD API - Batyr Gazizbek'
+ 
+ java {
+diff --git a/src/main/java/kz/gazizbek/studentapi/student/Student.java b/src/main/java/kz/gazizbek/studentapi/student/Student.java
+index 73fc68f..0900e6c 100644
+--- a/src/main/java/kz/gazizbek/studentapi/student/Student.java
++++ b/src/main/java/kz/gazizbek/studentapi/student/Student.java
+@@ -1,5 +1,6 @@
+ package kz.gazizbek.studentapi.student;
+ 
++import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+ import jakarta.persistence.Column;
+ import jakarta.persistence.Entity;
+ import jakarta.persistence.GeneratedValue;
+@@ -13,6 +14,7 @@ import java.time.Instant;
+ 
+ @Entity
+ @Table(name = "students")
++@JsonPropertyOrder({"id", "firstName", "lastName", "email", "groupName", "course", "createdAt", "updatedAt"})
+ public class Student {
+ 
+ 	@Id
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ grep -E '^APP_(VERSION|TAG)' .env
+APP_VERSION=1.1.0
+APP_TAG=v1.1-gazizbek-batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ ./gradlew test -q --console=plain && echo 'tests OK'
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-10-29T06:04:29.148+05:00  INFO 72388 --- [gazizbek-batyr-student-api] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-29T06:04:29.150+05:00  INFO 72388 --- [gazizbek-batyr-student-api] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-29T06:04:29.151+05:00  INFO 72388 --- [gazizbek-batyr-student-api] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+tests OK
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose build gazizbek-batyr-app 2>&1 | grep -E 'naming to|DONE [0-9.]+s$' | tail -3
+#18 naming to docker.io/library/gazizbek-batyr-student-api:v1.1-gazizbek-batyr done
+#18 DONE 1.4s
+#19 DONE 0.0s
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker images gazizbek-batyr-student-api
+IMAGE                                            ID             DISK USAGE   CONTENT SIZE   EXTRA
+gazizbek-batyr-student-api:v1.0-gazizbek-batyr   f9027af8be52        580MB          163MB   U    
+gazizbek-batyr-student-api:v1.1-gazizbek-batyr   ca21cf6bb83c        580MB          163MB        
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose up -d gazizbek-batyr-app 2>&1 | tail -2
+ Container gazizbek-batyr-app Starting 
+ Container gazizbek-batyr-app Started 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ sleep 8; curl -s http://localhost:8091/; echo
+{"application":"gazizbek-batyr-student-api","student":"Batyr Gazizbek","group":"IT2-2301","studentId":"38091","version":"1.1.0","studentsEndpoint":"/api/gazizbek-batyr/students"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker inspect gazizbek-batyr-app --format '{{.Config.Image}} version label={{index .Config.Labels "org.opencontainers.image.version"}}'
+gazizbek-batyr-student-api:v1.1-gazizbek-batyr version label=1.1.0
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s http://localhost:8091/api/gazizbek-batyr/students/1; echo
+{"id":1,"firstName":"Batyr","lastName":"Gazizbek","email":"batyr.gazizbek@student.kz","groupName":"IT2-2301","course":3,"createdAt":"2026-10-29T01:02:18.956262Z","updatedAt":"2026-10-29T01:02:18.956262Z"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add build.gradle src/main
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m 'Bump version to 1.1.0 and order Student JSON fields - Gazizbek Batyr' && git log --oneline -1
+84768cd Bump version to 1.1.0 and order Student JSON fields - Gazizbek Batyr

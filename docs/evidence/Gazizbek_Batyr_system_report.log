@@ -1,0 +1,78 @@
+==================================================
+ System report - Batyr Gazizbek
+==================================================
+Student full name : Batyr Gazizbek
+Date and time     : 2026-10-29 05:54:02 +05
+Username          : batyr
+Hostname          : gazizbek-batyr-linux
+Operating system  : Ubuntu 24.04.5 LTS
+Kernel            : Linux 6.8.0-117-generic (aarch64)
+
+---- CPU information ----
+Architecture:                            aarch64
+CPU(s):                                  4
+Vendor ID:                               Apple
+Model name:                              -
+Thread(s) per core:                      1
+
+---- Memory information ----
+               total        used        free      shared  buff/cache   available
+Mem:           5.8Gi       382Mi       4.6Gi       716Ki       933Mi       5.4Gi
+Swap:             0B          0B          0B
+
+---- Disk usage ----
+Filesystem             Size  Used Avail Use% Mounted on
+overlay                 40G  440M   37G   2% /
+tmpfs                   64M     0   64M   0% /dev
+shm                     64M     0   64M   0% /dev/shm
+/dev/vdb1               40G  440M   37G   2% /etc/hosts
+lima-4658e47399b11b17  229G  153G   76G  67% /home/batyr/projects
+tmpfs                  2.9G     0  2.9G   0% /proc/acpi
+tmpfs                  2.9G     0  2.9G   0% /proc/scsi
+tmpfs                  2.9G     0  2.9G   0% /sys/firmware
+
+---- Available disk space on / ----
+Filesystem                   Size  Available   Use%
+overlay                       40G        37G     2%
+
+Report finished for Batyr Gazizbek
+
+==================================================
+ System report - Batyr Gazizbek
+==================================================
+Student full name : Batyr Gazizbek
+Date and time     : 2026-10-29 05:54:02 +05
+Username          : batyr
+Hostname          : gazizbek-batyr-linux
+Operating system  : Ubuntu 24.04.5 LTS
+Kernel            : Linux 6.8.0-117-generic (aarch64)
+
+---- CPU information ----
+Architecture:                            aarch64
+CPU(s):                                  4
+Vendor ID:                               Apple
+Model name:                              -
+Thread(s) per core:                      1
+
+---- Memory information ----
+               total        used        free      shared  buff/cache   available
+Mem:           5.8Gi       383Mi       4.6Gi       716Ki       933Mi       5.4Gi
+Swap:             0B          0B          0B
+
+---- Disk usage ----
+Filesystem             Size  Used Avail Use% Mounted on
+overlay                 40G  440M   37G   2% /
+tmpfs                   64M     0   64M   0% /dev
+shm                     64M     0   64M   0% /dev/shm
+/dev/vdb1               40G  440M   37G   2% /etc/hosts
+lima-4658e47399b11b17  229G  153G   76G  67% /home/batyr/projects
+tmpfs                  2.9G     0  2.9G   0% /proc/acpi
+tmpfs                  2.9G     0  2.9G   0% /proc/scsi
+tmpfs                  2.9G     0  2.9G   0% /sys/firmware
+
+---- Available disk space on / ----
+Filesystem                   Size  Available   Use%
+overlay                       40G        37G     2%
+
+Report finished for Batyr Gazizbek
+

@@ -1,0 +1,99 @@
+
+==================== Task 3.1 Dockerfile - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ cat Dockerfile
+# Multi-stage Dockerfile for gazizbek-batyr-student-api (Batyr Gazizbek, IT2-2301)
+# Image: gazizbek-batyr-student-api:v1.0-gazizbek-batyr
+
+# ---------- Stage 1: build the jar with the Gradle wrapper on a full JDK ----------
+FROM eclipse-temurin:21-jdk AS build
+WORKDIR /workspace
+
+# Gradle files first, so the dependency layer is cached when only the code changes
+COPY gradlew settings.gradle build.gradle ./
+COPY gradle ./gradle
+RUN chmod +x gradlew && ./gradlew --no-daemon dependencies > /dev/null
+
+COPY src ./src
+# Tests are executed by the Jenkins "Test" stage, the image build only packages the jar
+RUN ./gradlew --no-daemon clean bootJar -x test
+
+# ---------- Stage 2: small runtime image with only a JRE and the jar ----------
+FROM eclipse-temurin:21-jre
+
+ARG APP_VERSION=1.0.0
+LABEL org.opencontainers.image.title="gazizbek-batyr-student-api" \
+      org.opencontainers.image.description="Student CRUD API - Batyr Gazizbek" \
+      org.opencontainers.image.authors="Batyr Gazizbek" \
+      org.opencontainers.image.version="${APP_VERSION}" \
+      org.opencontainers.image.source="https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api"
+
+ENV SERVER_PORT=8091 \
+    STUDENT_NAME="Batyr Gazizbek"
+
+WORKDIR /app
+RUN groupadd --system spring && useradd --system --gid spring --no-create-home spring
+COPY --from=build /workspace/build/libs/gazizbek-batyr-student-api.jar app.jar
+USER spring
+
+EXPOSE 8091
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker build --build-arg APP_VERSION=1.0.0 -t gazizbek-batyr-student-api:v1.0-gazizbek-batyr . 2>&1 | grep -E '^#[0-9]+ (\[|naming|exporting|writing)|DONE|ERROR' | grep -v CACHED | tail -25
+#7 [build 1/7] FROM docker.io/library/eclipse-temurin:21-jdk@sha256:5d90b26c0784ccf55af55f97cbcf7f3969c66a06299c93bdc72649219942a48f
+#7 DONE 42.2s
+#10 [build 2/7] WORKDIR /workspace
+#10 DONE 0.2s
+#11 [build 3/7] COPY gradlew settings.gradle build.gradle ./
+#11 DONE 0.0s
+#12 [build 4/7] COPY gradle ./gradle
+#12 DONE 0.0s
+#13 [build 5/7] RUN chmod +x gradlew && ./gradlew --no-daemon dependencies > /dev/null
+#13 DONE 169.3s
+#14 [build 6/7] COPY src ./src
+#14 DONE 0.1s
+#15 [build 7/7] RUN ./gradlew --no-daemon clean bootJar -x test
+#15 DONE 16.4s
+#16 [stage-1 4/4] COPY --from=build /workspace/build/libs/gazizbek-batyr-student-api.jar app.jar
+#16 DONE 0.1s
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.1s done
+#17 exporting manifest sha256:8016f80576f8f0496713c8749a2d252fb3f681110201797194bb388e61d9c914 done
+#17 exporting config sha256:0f0cf3fea5abf4fb8caf39ad02003e005ee9d78bd2db95fd634d34478806b5ec done
+#17 exporting attestation manifest sha256:c0506ea64bd3e9d13a78f08b2181fb12b9577aa06de6053434b5768eb772af97 done
+#17 exporting manifest list sha256:f9027af8be522d938f2a702bbba858583281e09cfb1b9a854c2c0edfedc568f1 done
+#17 naming to docker.io/library/gazizbek-batyr-student-api:v1.0-gazizbek-batyr done
+#17 DONE 1.4s
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker images gazizbek-batyr-student-api
+IMAGE                                            ID             DISK USAGE   CONTENT SIZE   EXTRA
+gazizbek-batyr-student-api:v1.0-gazizbek-batyr   f9027af8be52        580MB          163MB        
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker image inspect gazizbek-batyr-student-api:v1.0-gazizbek-batyr --format 'Id: {{.Id}}{{println}}Created: {{.Created}}{{println}}Size: {{.Size}} bytes{{println}}Architecture: {{.Os}}/{{.Architecture}}{{println}}ExposedPorts: {{json .Config.ExposedPorts}}{{println}}Entrypoint: {{json .Config.Entrypoint}}{{println}}Labels: {{json .Config.Labels}}'
+Id: sha256:f9027af8be522d938f2a702bbba858583281e09cfb1b9a854c2c0edfedc568f1
+Created: 2026-10-29T06:01:37.248893758+05:00
+Size: 162809870 bytes
+Architecture: linux/arm64
+ExposedPorts: {"8091/tcp":{}}
+Entrypoint: ["java","-jar","/app/app.jar"]
+Labels: {"org.opencontainers.image.authors":"Batyr Gazizbek","org.opencontainers.image.created":"2026-10-25T10:30:32.309136+00:00","org.opencontainers.image.description":"Student CRUD API - Batyr Gazizbek","org.opencontainers.image.source":"https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api","org.opencontainers.image.title":"gazizbek-batyr-student-api","org.opencontainers.image.version":"1.0.0"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker history gazizbek-batyr-student-api:v1.0-gazizbek-batyr --format 'table {{.CreatedSince}}\t{{.Size}}\t{{.CreatedBy}}' | head -12 | cut -c1-140
+CREATED         SIZE      CREATED BY
+1 second ago    0B        ENTRYPOINT ["java" "-jar" "/app/app.jar"]
+1 second ago    0B        EXPOSE [8091/tcp]
+1 second ago    0B        USER spring
+1 second ago    55.1MB    COPY /workspace/build/libs/gazizbek-batyr-st…
+3 minutes ago   41kB      RUN |1 APP_VERSION=1.0.0 /bin/sh -c groupadd…
+3 minutes ago   8.19kB    WORKDIR /app
+3 minutes ago   0B        ENV SERVER_PORT=8091 STUDENT_NAME=Batyr Gazi…
+3 minutes ago   0B        LABEL org.opencontainers.image.title=gazizbe…
+3 minutes ago   0B        ARG APP_VERSION=1.0.0
+2 days ago      0B        ENTRYPOINT ["/__cacert_entrypoint.sh"]
+2 days ago      12.3kB    COPY --chmod=755 entrypoint.sh /__cacert_ent…
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add Dockerfile .dockerignore
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m "Add multi-stage Dockerfile for gazizbek-batyr-student-api image - Gazizbek Batyr" && git log --oneline -1
+4de75f3 Add multi-stage Dockerfile for gazizbek-batyr-student-api image - Gazizbek Batyr

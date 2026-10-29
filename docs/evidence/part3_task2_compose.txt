@@ -1,0 +1,156 @@
+
+==================== Task 3.2 Docker Compose and PostgreSQL - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ cat docker-compose.yml
+# Docker Compose for gazizbek-batyr-student-api (Batyr Gazizbek)
+# Start:  docker compose up -d
+# Values like POSTGRES_PASSWORD come from the .env file (not committed, see .env.example)
+
+name: gazizbek-batyr-student-api
+
+services:
+  gazizbek-batyr-db:
+    image: postgres:17-alpine
+    container_name: gazizbek-batyr-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-gazizbek_batyr_db}
+      POSTGRES_USER: ${POSTGRES_USER:-gazizbek_batyr}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - gazizbek-batyr-pgdata:/var/lib/postgresql/data
+    networks:
+      - gazizbek-batyr-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  gazizbek-batyr-app:
+    build:
+      context: .
+      args:
+        APP_VERSION: ${APP_VERSION:-1.0.0}
+    image: gazizbek-batyr-student-api:${APP_TAG:-v1.0-gazizbek-batyr}
+    container_name: gazizbek-batyr-app
+    depends_on:
+      gazizbek-batyr-db:
+        condition: service_healthy
+    environment:
+      # "gazizbek-batyr-db" is the Compose service name, resolved by Docker DNS on the network
+      SPRING_DATASOURCE_URL: jdbc:postgresql://gazizbek-batyr-db:5432/${POSTGRES_DB:-gazizbek_batyr_db}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-gazizbek_batyr}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      SERVER_PORT: 8091
+    ports:
+      - "8091:8091"
+    networks:
+      - gazizbek-batyr-net
+    restart: unless-stopped
+
+volumes:
+  gazizbek-batyr-pgdata:
+
+networks:
+  gazizbek-batyr-net:
+    driver: bridge
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ cat .env.example
+# Copy to .env and set your own values. The real .env file is ignored by Git.
+POSTGRES_DB=gazizbek_batyr_db
+POSTGRES_USER=gazizbek_batyr
+POSTGRES_PASSWORD=change-me
+APP_VERSION=1.0.0
+APP_TAG=v1.0-gazizbek-batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git check-ignore -v .env   # real .env with the password is not committed
+.gitignore:20:*.env	.env
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose config --quiet && echo 'compose file is valid'
+compose file is valid
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose up -d 2>&1 | grep -v -E 'Pulling fs layer|Waiting|Downloading|Extracting|Verifying|Download complete|Pull complete'
+ Image postgres:17-alpine Pulling 
+ Image postgres:17-alpine Pulled 
+ Volume gazizbek-batyr-student-api_gazizbek-batyr-pgdata Creating 
+ Network gazizbek-batyr-student-api_gazizbek-batyr-net Creating 
+ Volume gazizbek-batyr-student-api_gazizbek-batyr-pgdata Creating 
+ Network gazizbek-batyr-student-api_gazizbek-batyr-net Creating 
+ Volume gazizbek-batyr-student-api_gazizbek-batyr-pgdata Created 
+ Volume gazizbek-batyr-student-api_gazizbek-batyr-pgdata Created 
+ Network gazizbek-batyr-student-api_gazizbek-batyr-net Created 
+ Network gazizbek-batyr-student-api_gazizbek-batyr-net Created 
+ Container gazizbek-batyr-postgres Creating 
+ Container gazizbek-batyr-postgres Created 
+ Container gazizbek-batyr-app Creating 
+ Container gazizbek-batyr-app Created 
+ Container gazizbek-batyr-postgres Starting 
+ Container gazizbek-batyr-postgres Started 
+ Container gazizbek-batyr-postgres Healthy 
+ Container gazizbek-batyr-app Starting 
+ Container gazizbek-batyr-app Started 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose ps
+NAME                      IMAGE                                            COMMAND                  SERVICE              CREATED         STATUS                   PORTS
+gazizbek-batyr-app        gazizbek-batyr-student-api:v1.0-gazizbek-batyr   "java -jar /app/app.…"   gazizbek-batyr-app   5 seconds ago   Up Less than a second    0.0.0.0:8091->8091/tcp, [::]:8091->8091/tcp
+gazizbek-batyr-postgres   postgres:17-alpine                               "docker-entrypoint.s…"   gazizbek-batyr-db    5 seconds ago   Up 5 seconds (healthy)   5432/tcp
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker ps --filter name=gazizbek-batyr --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
+NAMES                     IMAGE                                            STATUS                   PORTS
+gazizbek-batyr-app        gazizbek-batyr-student-api:v1.0-gazizbek-batyr   Up Less than a second    0.0.0.0:8091->8091/tcp, [::]:8091->8091/tcp
+gazizbek-batyr-postgres   postgres:17-alpine                               Up 5 seconds (healthy)   5432/tcp
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker logs gazizbek-batyr-app 2>&1 | grep -E 'Starting|HikariPool-1 - (Added|Start completed)|PostgreSQL|Tomcat started|Started|owner|Seeded'
+2026-10-29T01:02:16.310Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] k.g.s.GazizbekBatyrStudentApiApplication : Starting GazizbekBatyrStudentApiApplication v1.0.0 using Java 21.0.12.1 with PID 1 (/app/app.jar started by spring in /app)
+2026-10-29T01:02:17.252Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-29T01:02:17.253Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-29T01:02:17.642Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-29T01:02:17.744Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2773504f
+2026-10-29T01:02:17.745Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+2026-10-29T01:02:18.665Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8091 (http) with context path '/'
+2026-10-29T01:02:18.670Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] k.g.s.GazizbekBatyrStudentApiApplication : Started GazizbekBatyrStudentApiApplication in 2.607 seconds (process running for 3.073)
+2026-10-29T01:02:18.722Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] k.g.studentapi.config.StudentDataSeeder  : Student API owner: Batyr Gazizbek
+2026-10-29T01:02:18.979Z  INFO 1 --- [gazizbek-batyr-student-api] [           main] k.g.studentapi.config.StudentDataSeeder  : Seeded 3 students for Batyr Gazizbek
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker exec gazizbek-batyr-app sh -c 'env | grep -E "^SPRING_DATASOURCE_(URL|USERNAME)"'
+SPRING_DATASOURCE_URL=jdbc:postgresql://gazizbek-batyr-db:5432/gazizbek_batyr_db
+SPRING_DATASOURCE_USERNAME=gazizbek_batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker exec gazizbek-batyr-app getent hosts gazizbek-batyr-db   # service name resolved by Docker DNS
+172.18.0.2      gazizbek-batyr-db
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s http://localhost:8091/actuator/health; echo
+{"groups":["liveness","readiness"],"status":"UP"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s http://localhost:8091/; echo
+{"application":"gazizbek-batyr-student-api","student":"Batyr Gazizbek","group":"IT2-2301","studentId":"38091","version":"1.0.0","studentsEndpoint":"/api/gazizbek-batyr/students"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker exec gazizbek-batyr-postgres psql -U gazizbek_batyr -d gazizbek_batyr_db -c 'SELECT id, first_name, last_name, group_name FROM students ORDER BY id;'
+ id | first_name | last_name | group_name 
+----+------------+-----------+------------
+  1 | Batyr      | Gazizbek  | IT2-2301
+  2 | Aruzhan    | Seitkali  | IT2-2301
+  3 | Nurlan     | Abenov    | IT2-2302
+(3 rows)
+
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker volume ls --filter name=gazizbek-batyr
+DRIVER    VOLUME NAME
+local     gazizbek-batyr-student-api_gazizbek-batyr-pgdata
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker network ls --filter name=gazizbek-batyr
+NETWORK ID     NAME                                            DRIVER    SCOPE
+99e0292b16a3   gazizbek-batyr-student-api_gazizbek-batyr-net   bridge    local
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker inspect gazizbek-batyr-postgres --format 'Health: {{.State.Health.Status}} | last check: {{(index .State.Health.Log 0).Output}}'
+Health: healthy | last check: /var/run/postgresql:5432 - accepting connections
+
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add docker-compose.yml .env.example
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m "Add Docker Compose with PostgreSQL, volume, network and health check - Gazizbek Batyr" && git log --oneline -1
+b653ad3 Add Docker Compose with PostgreSQL, volume, network and health check - Gazizbek Batyr

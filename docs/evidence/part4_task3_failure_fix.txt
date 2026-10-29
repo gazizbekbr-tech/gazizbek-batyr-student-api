@@ -1,0 +1,60 @@
+
+==================== Task 4.3 Pipeline failure and fix on own test branch - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git branch --show-current
+test/gazizbek-batyr-pipeline-failure
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git diff
+diff --git a/src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java b/src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java
+index c3417e2..077782f 100644
+--- a/src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java
++++ b/src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java
+@@ -45,7 +45,7 @@ class StudentControllerTests {
+ 	void infoShowsStudentName() throws Exception {
+ 		mvc.perform(get("/"))
+ 				.andExpect(status().isOk())
+-				.andExpect(jsonPath("$.student").value("Batyr Gazizbek"))
++				.andExpect(jsonPath("$.student").value("Batyr Gazizbek - CONTROLLED ERROR"))
+ 				.andExpect(jsonPath("$.studentId").value("38091"));
+ 	}
+ 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -am 'Controlled error: wrong expected student name in info test - Gazizbek Batyr' && git log --oneline -1
+53de29e Controlled error: wrong expected student name in info test - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git push -u origin test/gazizbek-batyr-pipeline-failure 2>&1 | grep -E 'new branch|->'
+ * [new branch]      test/gazizbek-batyr-pipeline-failure -> test/gazizbek-batyr-pipeline-failure
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -g 'http://localhost:8080/job/Gazizbek_Batyr_Student_API/job/test%252Fgazizbek-batyr-pipeline-failure/api/json?tree=builds[number,result]' | jq -c '.builds[]'
+{"_class":"org.jenkinsci.plugins.workflow.job.WorkflowRun","number":1,"result":"FAILURE"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ ./gradlew test -q --console=plain >/dev/null 2>&1 && echo 'local tests pass after the fix'
+local tests pass after the fix
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git diff
+diff --git a/src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java b/src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java
+index 077782f..c3417e2 100644
+--- a/src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java
++++ b/src/test/java/kz/gazizbek/studentapi/StudentControllerTests.java
+@@ -45,7 +45,7 @@ class StudentControllerTests {
+ 	void infoShowsStudentName() throws Exception {
+ 		mvc.perform(get("/"))
+ 				.andExpect(status().isOk())
+-				.andExpect(jsonPath("$.student").value("Batyr Gazizbek - CONTROLLED ERROR"))
++				.andExpect(jsonPath("$.student").value("Batyr Gazizbek"))
+ 				.andExpect(jsonPath("$.studentId").value("38091"));
+ 	}
+ 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -am 'Fix info test expectation after controlled failure - Gazizbek Batyr' && git log --oneline -1
+3c43fb6 Fix info test expectation after controlled failure - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git push origin test/gazizbek-batyr-pipeline-failure 2>&1 | grep -E -- '->'
+   53de29e..3c43fb6  test/gazizbek-batyr-pipeline-failure -> test/gazizbek-batyr-pipeline-failure
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -g 'http://localhost:8080/job/Gazizbek_Batyr_Student_API/job/test%252Fgazizbek-batyr-pipeline-failure/api/json?tree=builds[number,result,duration,causes]' | jq -c '.builds[] | {number, result}'
+{"number":2,"result":"SUCCESS"}
+{"number":1,"result":"FAILURE"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s 'http://localhost:8080/job/Gazizbek_Batyr_Student_API/job/test%252Fgazizbek-batyr-pipeline-failure/2/api/json' | jq -r '.actions[] | select(._class=="hudson.model.CauseAction") | .causes[].shortDescription'
+Started by an SCM change

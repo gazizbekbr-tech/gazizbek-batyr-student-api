@@ -1,0 +1,244 @@
+Branch indexing
+ > git rev-parse --resolve-git-dir /var/jenkins_home/caches/git-3da2376ac490a2ab99b811930daffc54/.git # timeout=10
+Setting origin to https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ > git config remote.origin.url https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git # timeout=10
+Fetching origin...
+Fetching upstream changes from origin
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git config --get remote.origin.url # timeout=10
+ > git fetch --no-tags --force --progress -- origin +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/feature/gazizbek-batyr-crud
+Seen branch in repository origin/feature/gazizbek-batyr-documentation
+Seen branch in repository origin/main
+Seen branch in repository origin/test/gazizbek-batyr-pipeline-failure
+Seen 4 remote branches
+Obtained Jenkinsfile from 53de29e1cd37ef4b992ad8fb58643ee6e6c5b460
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on gazizbek-batyr-docker-agent in /home/jenkins/agent/workspace/_gazizbek-batyr-pipeline-failure
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ > git init /home/jenkins/agent/workspace/_gazizbek-batyr-pipeline-failure # timeout=10
+Fetching upstream changes from https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --no-tags --force --progress -- https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision 53de29e1cd37ef4b992ad8fb58643ee6e6c5b460 (test/gazizbek-batyr-pipeline-failure)
+Commit message: "Controlled error: wrong expected student name in info test - Gazizbek Batyr"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timestamps
+[Pipeline] {
+[Pipeline] timeout
+[2026-10-29T01:18:36.497Z] Timeout set to expire in 30 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Tool Install)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] checkout
+[2026-10-29T01:18:36.742Z] Selected Git installation does not exist. Using Default
+[2026-10-29T01:18:36.742Z] The recommended git tool is: NONE
+[2026-10-29T01:18:36.745Z] No credentials specified
+[2026-10-29T01:18:36.748Z] Fetching changes from the remote Git repository
+[2026-10-29T01:18:36.761Z] Fetching without tags
+ > git config remote.origin.url https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 53de29e1cd37ef4b992ad8fb58643ee6e6c5b460 # timeout=10
+[2026-10-29T01:18:37.499Z] Checking out Revision 53de29e1cd37ef4b992ad8fb58643ee6e6c5b460 (test/gazizbek-batyr-pipeline-failure)
+[2026-10-29T01:18:37.507Z] Commit message: "Controlled error: wrong expected student name in info test - Gazizbek Batyr"
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
+[2026-10-29T01:18:36.746Z]  > git rev-parse --resolve-git-dir /home/jenkins/agent/workspace/_gazizbek-batyr-pipeline-failure/.git # timeout=10
+[2026-10-29T01:18:36.755Z]  > git config remote.origin.url https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git # timeout=10
+[2026-10-29T01:18:36.764Z] Fetching upstream changes from https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git
+[2026-10-29T01:18:36.764Z]  > git --version # timeout=10
+[2026-10-29T01:18:36.766Z]  > git --version # 'git version 2.47.3'
+[2026-10-29T01:18:36.767Z]  > git fetch --no-tags --force --progress -- https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-29T01:18:37.500Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-29T01:18:37.502Z]  > git checkout -f 53de29e1cd37ef4b992ad8fb58643ee6e6c5b460 # timeout=10
+[2026-10-29T01:18:37.805Z] + sed -n s/^version = '\(.*\)'/\1/p build.gradle
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
+[2026-10-29T01:18:38.139Z] + echo ==================================================
+[2026-10-29T01:18:38.139Z] ==================================================
+[2026-10-29T01:18:38.139Z] + echo  Pipeline of Batyr Gazizbek (IT2-2301, ID 38091)
+[2026-10-29T01:18:38.139Z]  Pipeline of Batyr Gazizbek (IT2-2301, ID 38091)
+[2026-10-29T01:18:38.139Z] + echo ==================================================
+[2026-10-29T01:18:38.139Z] ==================================================
+[2026-10-29T01:18:38.139Z] + echo Branch      : test/gazizbek-batyr-pipeline-failure
+[2026-10-29T01:18:38.139Z] Branch      : test/gazizbek-batyr-pipeline-failure
+[2026-10-29T01:18:38.139Z] + git log -1 --format=Commit      : %h %s (%an)
+[2026-10-29T01:18:38.139Z] Commit      : 53de29e Controlled error: wrong expected student name in info test - Gazizbek Batyr (Batyr Gazizbek)
+[2026-10-29T01:18:38.139Z] + echo App version : 1.1.0
+[2026-10-29T01:18:38.139Z] App version : 1.1.0
+[2026-10-29T01:18:38.139Z] + echo Docker image: gazizbek-batyr-student-api:v1.1-gazizbek-batyr-test-gazizbek-batyr-pipeline-failure
+[2026-10-29T01:18:38.139Z] Docker image: gazizbek-batyr-student-api:v1.1-gazizbek-batyr-test-gazizbek-batyr-pipeline-failure
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] echo
+[2026-10-29T01:18:38.329Z] Compiling the Spring Boot application of Batyr Gazizbek
+[Pipeline] sh
+[2026-10-29T01:18:38.611Z] + chmod +x gradlew
+[2026-10-29T01:18:38.611Z] + ./gradlew --no-daemon --console=plain clean compileJava
+[2026-10-29T01:18:39.555Z] To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+[2026-10-29T01:18:40.961Z] Daemon will be stopped at the end of the build 
+[2026-10-29T01:18:46.006Z] > Task :clean
+[2026-10-29T01:18:46.575Z] > Task :compileJava
+[2026-10-29T01:18:46.575Z] 
+[2026-10-29T01:18:46.575Z] BUILD SUCCESSFUL in 7s
+[2026-10-29T01:18:46.575Z] 2 actionable tasks: 2 executed
+[2026-10-29T01:18:46.575Z] Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.8.2/userguide/configuration_cache_enabling.html
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] echo
+[2026-10-29T01:18:46.674Z] Running automated tests for Batyr Gazizbek
+[Pipeline] sh
+[2026-10-29T01:18:46.949Z] + ./gradlew --no-daemon --console=plain test
+[2026-10-29T01:18:47.537Z] To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+[2026-10-29T01:18:48.120Z] Daemon will be stopped at the end of the build 
+[2026-10-29T01:18:51.399Z] > Task :compileJava UP-TO-DATE
+[2026-10-29T01:18:51.399Z] > Task :bootBuildInfo
+[2026-10-29T01:18:51.399Z] > Task :processResources
+[2026-10-29T01:18:51.399Z] > Task :classes
+[2026-10-29T01:18:52.333Z] > Task :compileTestJava
+[2026-10-29T01:18:52.333Z] > Task :processTestResources
+[2026-10-29T01:18:52.333Z] > Task :testClasses
+[2026-10-29T01:18:57.339Z] 
+[2026-10-29T01:18:57.339Z] > Task :test
+[2026-10-29T01:18:57.339Z] 
+[2026-10-29T01:18:57.339Z] StudentControllerTests > createsAndReadsStudent() PASSED
+[2026-10-29T01:18:57.339Z] 
+[2026-10-29T01:18:57.339Z] StudentControllerTests > infoShowsStudentName() FAILED
+[2026-10-29T01:18:57.339Z]     java.lang.AssertionError: JSON path "$.student" expected:<Batyr Gazizbek - CONTROLLED ERROR> but was:<Batyr Gazizbek>
+[2026-10-29T01:18:57.339Z]         at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:62)
+[2026-10-29T01:18:57.339Z]         at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:129)
+[2026-10-29T01:18:57.339Z]         at org.springframework.test.util.JsonPathExpectationsHelper.assertValue(JsonPathExpectationsHelper.java:172)
+[2026-10-29T01:18:57.339Z]         at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$value$2(JsonPathResultMatchers.java:111)
+[2026-10-29T01:18:57.339Z]         at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+[2026-10-29T01:18:57.339Z]         at kz.gazizbek.studentapi.StudentControllerTests.infoShowsStudentName(StudentControllerTests.java:48)
+[2026-10-29T01:18:57.339Z] 
+[2026-10-29T01:18:57.339Z] StudentControllerTests > rejectsInvalidStudent() PASSED
+[2026-10-29T01:18:57.339Z] 
+[2026-10-29T01:18:57.339Z] StudentControllerTests > updatesStudent() PASSED
+[2026-10-29T01:18:57.339Z] 
+[2026-10-29T01:18:57.339Z] StudentControllerTests > returns404ForMissingStudent() PASSED
+[2026-10-29T01:18:57.339Z] 
+[2026-10-29T01:18:57.339Z] StudentControllerTests > deletesStudent() PASSED
+[2026-10-29T01:18:57.339Z] 
+[2026-10-29T01:18:57.600Z] StudentControllerTests > rejectsDuplicateEmail() PASSED
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] StudentControllerTests > updateOfMissingStudentReturns404() PASSED
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] 2026-10-29T01:18:57.324Z  INFO 2231 --- [gazizbek-batyr-student-api] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-10-29T01:18:57.600Z] 2026-10-29T01:18:57.331Z  INFO 2231 --- [gazizbek-batyr-student-api] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+[2026-10-29T01:18:57.600Z] 2026-10-29T01:18:57.335Z  INFO 2231 --- [gazizbek-batyr-student-api] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] > Task :test FAILED
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] 8 tests completed, 1 failed
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] [Incubating] Problems report is available at: file:///home/jenkins/agent/workspace/_gazizbek-batyr-pipeline-failure/build/reports/problems/problems-report.html
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] FAILURE: Build failed with an exception.
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] * What went wrong:
+[2026-10-29T01:18:57.600Z] Execution failed for task ':test'.
+[2026-10-29T01:18:57.600Z] > There were failing tests. See the report at: file:///home/jenkins/agent/workspace/_gazizbek-batyr-pipeline-failure/build/reports/tests/test/index.html
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] * Try:
+[2026-10-29T01:18:57.600Z] > Run with --scan to get full insights from a Build Scan (powered by Develocity).
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+[2026-10-29T01:18:57.600Z] 
+[2026-10-29T01:18:57.600Z] BUILD FAILED in 10s
+[2026-10-29T01:18:57.600Z] 6 actionable tasks: 5 executed, 1 up-to-date
+Post stage
+[Pipeline] junit
+[2026-10-29T01:18:57.954Z] Recording test results
+[2026-10-29T01:18:57.983Z] [Checks API] No suitable checks publisher found.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Build)
+Stage "Docker Build" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify)
+Stage "Verify" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+[2026-10-29T01:18:58.258Z] FAILURE: pipeline of Batyr Gazizbek stopped, see the failed stage above
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // timestamps
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

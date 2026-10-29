@@ -1,0 +1,96 @@
+
+==================== Task 1.4 Process and log analysis - Batyr Gazizbek ====================
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ ps aux --sort=-%mem | head -n 8 | cut -c1-150
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+999        11224 30.0  6.2 5270336 378648 ?      Ssl  06:06   0:11 java -jar /app/app.jar
+root        1543  1.7  1.9 2380200 116008 ?      Ssl  05:50   0:17 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --host-gatew
+root        1464  1.2  1.0 2163312 65116 ?       Ssl  05:50   0:12 /usr/bin/containerd
+root        1126  0.7  0.5 1347628 33152 ?       Ssl  05:50   0:07 /usr/local/bin/lima-guestagent daemon --vsock-port 2222 --runtime-dir=/run/lima-gue
+70          9756  0.0  0.4 176496 27556 ?        Ss   06:03   0:00 postgres
+70         11325  0.0  0.3 179988 18460 ?        Ss   06:06   0:00 postgres: gazizbek_batyr gazizbek_batyr_db 172.18.0.3(60716) idle
+70         11329  0.0  0.2 178652 13120 ?        Ss   06:06   0:00 postgres: gazizbek_batyr gazizbek_batyr_db 172.18.0.3(60730) idle
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ ps aux | grep -i '[j]ava' | cut -c1-150
+999        11224 30.0  6.2 5270336 378648 ?      Ssl  06:06   0:11 java -jar /app/app.jar
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ pgrep -a java | cut -c1-120
+11224 java -jar /app/app.jar
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ JAVA_PID=$(pgrep -f 'app.jar' | head -1); ps -o pid,user,%cpu,%mem,etime,cmd -p $JAVA_PID | cut -c1-120
+    PID USER     %CPU %MEM     ELAPSED CMD
+  11224 999      30.0  6.2       00:37 java -jar /app/app.jar
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ tail -n 5 logs/Gazizbek_Batyr_system_report.log
+Filesystem                   Size  Available   Use%
+overlay                       40G        37G     2%
+
+Report finished for Batyr Gazizbek
+
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ grep -n 'Gazizbek' logs/Gazizbek_Batyr_system_report.log
+2: System report - Batyr Gazizbek
+4:Student full name : Batyr Gazizbek
+38:Report finished for Batyr Gazizbek
+41: System report - Batyr Gazizbek
+43:Student full name : Batyr Gazizbek
+77:Report finished for Batyr Gazizbek
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ grep -c 'Gazizbek' logs/Gazizbek_Batyr_system_report.log
+6
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ echo "Log analysis for Batyr Gazizbek - $(date '+%Y-%m-%d %H:%M:%S')" > logs/Gazizbek_Batyr_log_analysis.txt
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ echo "Search: grep -n 'Gazizbek' logs/Gazizbek_Batyr_system_report.log" >> logs/Gazizbek_Batyr_log_analysis.txt
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ grep -n 'Gazizbek' logs/Gazizbek_Batyr_system_report.log >> logs/Gazizbek_Batyr_log_analysis.txt
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ echo "Total matches: $(grep -c 'Gazizbek' logs/Gazizbek_Batyr_system_report.log)" >> logs/Gazizbek_Batyr_log_analysis.txt
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ cat logs/Gazizbek_Batyr_log_analysis.txt
+Log analysis for Batyr Gazizbek - 2026-10-29 06:07:16
+Search: grep -n 'Gazizbek' logs/Gazizbek_Batyr_system_report.log
+2: System report - Batyr Gazizbek
+4:Student full name : Batyr Gazizbek
+38:Report finished for Batyr Gazizbek
+41: System report - Batyr Gazizbek
+43:Student full name : Batyr Gazizbek
+77:Report finished for Batyr Gazizbek
+Total matches: 6
+
+==================== Difference between > and >> ====================
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ echo 'first line'  > /tmp/redirect_demo_gazizbek.txt
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ echo 'second line' > /tmp/redirect_demo_gazizbek.txt
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ cat /tmp/redirect_demo_gazizbek.txt    # > overwrote the file, only the last line is left
+second line
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ echo 'third line' >> /tmp/redirect_demo_gazizbek.txt
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ cat /tmp/redirect_demo_gazizbek.txt    # >> appended to the end of the file
+second line
+third line
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ cat >> logs/Gazizbek_Batyr_log_analysis.txt <<'TXT'
+
+Difference between > and >> (Batyr Gazizbek):
+  >   redirects command output to a file and OVERWRITES it (the file is truncated
+      first or created if it does not exist).
+  >>  redirects command output to a file and APPENDS it to the end, the old
+      content is kept. That is why the system report script uses tee -a (append)
+      and the log keeps every run, while 'echo ... > file' started this analysis
+      file from scratch.
+TXT
+
+batyr@gazizbek-batyr-linux:gazizbek-batyr-student-api$ tail -n 9 logs/Gazizbek_Batyr_log_analysis.txt
+Total matches: 6
+
+Difference between > and >> (Batyr Gazizbek):
+  >   redirects command output to a file and OVERWRITES it (the file is truncated
+      first or created if it does not exist).
+  >>  redirects command output to a file and APPENDS it to the end, the old
+      content is kept. That is why the system report script uses tee -a (append)
+      and the log keeps every run, while 'echo ... > file' started this analysis
+      file from scratch.

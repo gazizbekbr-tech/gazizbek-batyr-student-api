@@ -13,6 +13,8 @@ Project status: full CRUD (create, read, update, delete) is implemented and docu
 | Base API path   | `/api/gazizbek-batyr/students`   |
 | Application port| 8091                             |
 
+Midterm evidence: [docs/REPORT.md](docs/REPORT.md) - defense notes: [docs/DEFENSE_QA.md](docs/DEFENSE_QA.md)
+
 ## Tech stack
 
 - Java 21, Spring Boot 4 (Web MVC, Data JPA, Validation, Actuator)

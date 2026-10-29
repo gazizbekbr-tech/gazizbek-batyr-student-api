@@ -1,0 +1,46 @@
+
+==================== Task 4.1 Jenkins setup - Batyr Gazizbek ====================
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git status --short
+ M Jenkinsfile
+?? jenkins/
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git add Jenkinsfile jenkins/
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git commit -q -m "Add Jenkins pipeline and local Jenkins setup with Docker agent - Gazizbek Batyr" && git log --oneline -1
+252abe9 Add Jenkins pipeline and local Jenkins setup with Docker agent - Gazizbek Batyr
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ git push origin main 2>&1 | tail -1
+   290b6cc..252abe9  main -> main
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker compose -f jenkins/docker-compose.yml ps --format 'table {{.Name}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
+NAME                           IMAGE                                                                     STATUS          PORTS
+gazizbek-batyr-jenkins         sha256:074c7a907411e709ff2ab224229c83952c8a9418194e6693cf3e929e795c7479   Up 50 seconds   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp, 50000/tcp
+gazizbek-batyr-jenkins-agent   gazizbek-batyr-jenkins-agent:jdk21-docker                                 Up 38 seconds   
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ cat jenkins/controller/plugins.txt | tr '\n' ' '; echo
+configuration-as-code job-dsl workflow-aggregator workflow-multibranch git pipeline-stage-view pipeline-graph-view timestamper junit credentials-binding plain-credentials ws-cleanup 
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -g 'http://localhost:8080/api/json?tree=jobs[name,url,_class]' | jq .
+{
+  "_class": "hudson.model.Hudson",
+  "jobs": [
+    {
+      "_class": "org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject",
+      "name": "Gazizbek_Batyr_Student_API",
+      "url": "http://localhost:8080/job/Gazizbek_Batyr_Student_API/"
+    }
+  ]
+}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -g -u "batyr:$JENKINS_ADMIN_PASSWORD" 'http://localhost:8080/computer/api/json?tree=computer[displayName,offline,assignedLabels[name]]' | jq -c '.computer[] | {displayName, offline, labels: [.assignedLabels[].name]}'
+{"displayName":"Built-In Node","offline":false,"labels":["built-in"]}
+{"displayName":"gazizbek-batyr-docker-agent","offline":false,"labels":["gazizbek-batyr","gazizbek-batyr-docker-agent","docker"]}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ curl -s -g -u "batyr:$JENKINS_ADMIN_PASSWORD" 'http://localhost:8080/credentials/store/system/domain/_/api/json?tree=credentials[id,typeName,description]' | jq -c '.credentials[]'
+{"description":"PostgreSQL password for the pipeline smoke test (Batyr Gazizbek)","id":"gazizbek-batyr-verify-db-password","typeName":"Secret text"}
+
+batyrgazizbek@MacBook-Air-Batyr:gazizbek-batyr-student-api$ docker exec gazizbek-batyr-jenkins-agent sh -c 'java -version 2>&1 | head -1; docker version --format "Docker client {{.Client.Version}}, server {{.Server.Version}}"; git --version'
+openjdk version "21.0.13" 2026-10-20 LTS
+Docker client 29.9.2, server 29.5.2
+git version 2.47.3

@@ -1,0 +1,71 @@
+
+==================== Task 1.1 Project structure - Batyr Gazizbek ====================
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects$ pwd
+/home/batyr/projects
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects$ mkdir -p gazizbek-batyr-student-api/scripts gazizbek-batyr-student-api/logs gazizbek-batyr-student-api/backups gazizbek-batyr-student-api/src
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects$ cd gazizbek-batyr-student-api
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects/gazizbek-batyr-student-api$ touch Dockerfile docker-compose.yml Jenkinsfile build.gradle README.md
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects/gazizbek-batyr-student-api$ touch scripts/Gazizbek_Batyr_system_report.sh
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects/gazizbek-batyr-student-api$ touch logs/Gazizbek_Batyr_system_report.log
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects/gazizbek-batyr-student-api$ tree
+.
+|-- Dockerfile
+|-- Jenkinsfile
+|-- README.md
+|-- backups
+|-- build.gradle
+|-- docker-compose.yml
+|-- logs
+|   `-- Gazizbek_Batyr_system_report.log
+|-- scripts
+|   `-- Gazizbek_Batyr_system_report.sh
+`-- src
+
+5 directories, 7 files
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects/gazizbek-batyr-student-api$ for f in scripts logs backups src Dockerfile docker-compose.yml Jenkinsfile build.gradle README.md scripts/Gazizbek_Batyr_system_report.sh logs/Gazizbek_Batyr_system_report.log; do if [ -e "$f" ]; then echo "OK      $f"; else echo "MISSING $f"; fi; done
+OK      scripts
+OK      logs
+OK      backups
+OK      src
+OK      Dockerfile
+OK      docker-compose.yml
+OK      Jenkinsfile
+OK      build.gradle
+OK      README.md
+OK      scripts/Gazizbek_Batyr_system_report.sh
+OK      logs/Gazizbek_Batyr_system_report.log
+
+batyr@gazizbek-batyr-linux:/home/batyr/projects/gazizbek-batyr-student-api$ ls -la . scripts logs
+.:
+total 0
+drwxr-xr-x 11 batyr batyr 352 Oct 29 00:52 .
+drwx------  4 batyr batyr 128 Oct 29 00:52 ..
+-rw-r--r--  1 batyr batyr   0 Oct 29 00:52 Dockerfile
+-rw-r--r--  1 batyr batyr   0 Oct 29 00:52 Jenkinsfile
+-rw-r--r--  1 batyr batyr   0 Oct 29 00:52 README.md
+drwxr-xr-x  2 batyr batyr  64 Oct 29 00:52 backups
+-rw-r--r--  1 batyr batyr   0 Oct 29 00:52 build.gradle
+-rw-r--r--  1 batyr batyr   0 Oct 29 00:52 docker-compose.yml
+drwxr-xr-x  3 batyr batyr  96 Oct 29 00:52 logs
+drwxr-xr-x  3 batyr batyr  96 Oct 29 00:52 scripts
+drwxr-xr-x  2 batyr batyr  64 Oct 29 00:52 src
+
+logs:
+total 0
+drwxr-xr-x  3 batyr batyr  96 Oct 29 00:52 .
+drwxr-xr-x 11 batyr batyr 352 Oct 29 00:52 ..
+-rw-r--r--  1 batyr batyr   0 Oct 29 00:52 Gazizbek_Batyr_system_report.log
+
+scripts:
+total 0
+drwxr-xr-x  3 batyr batyr  96 Oct 29 00:52 .
+drwxr-xr-x 11 batyr batyr 352 Oct 29 00:52 ..
+-rw-r--r--  1 batyr batyr   0 Oct 29 00:52 Gazizbek_Batyr_system_report.sh
