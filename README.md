@@ -27,6 +27,7 @@ gazizbek-batyr-student-api/
 ├── logs/         Script output logs (not committed)
 ├── backups/      File backups
 ├── src/          Spring Boot application and tests
+├── jenkins/      Local Jenkins: controller (JCasC) + Docker build agent
 ├── Dockerfile
 ├── docker-compose.yml
 ├── Jenkinsfile
@@ -90,3 +91,49 @@ curl -i -X DELETE $BASE/1
 ```
 
 The report is printed to the terminal and appended to `logs/Gazizbek_Batyr_system_report.log`.
+
+## Docker
+
+```bash
+# multi-stage build: JDK + Gradle in the build stage, JRE only in the runtime stage
+docker build --build-arg APP_VERSION=1.1.0 -t gazizbek-batyr-student-api:v1.1-gazizbek-batyr .
+```
+
+## Docker Compose (application + PostgreSQL)
+
+```bash
+cp .env.example .env          # then set your own POSTGRES_PASSWORD
+docker compose up -d --build
+docker compose ps
+```
+
+- Compose project: `gazizbek-batyr-student-api`
+- Services: `gazizbek-batyr-app` (port 8091) and `gazizbek-batyr-db` (PostgreSQL 17 with `pg_isready` health check)
+- Named volume `gazizbek-batyr-pgdata` keeps the database between restarts, network `gazizbek-batyr-net`
+- The application connects to `jdbc:postgresql://gazizbek-batyr-db:5432/...` - the service name,
+  because inside a container `localhost` is the container itself.
+
+## Jenkins CI
+
+```bash
+./jenkins/start-jenkins.sh    # controller on http://localhost:8080 + Docker build agent
+```
+
+- Job `Gazizbek_Batyr_Student_API` (multibranch pipeline, builds `main` and `test/*` branches)
+- Stages: Checkout -> Build -> Test -> Docker Build -> Verify (`Jenkinsfile`)
+- Trigger: `pollSCM('* * * * *')`, Jenkins checks GitHub every minute and starts a build for a new commit.
+  A GitHub webhook would need a public Jenkins URL; this Jenkins runs on localhost, so polling is used.
+- The smoke-test database password is stored in Jenkins Credentials (`gazizbek-batyr-verify-db-password`).
+
+**CI vs CD.** Continuous Integration: every commit is automatically built and tested (here: compile,
+tests, Docker image, smoke test), so problems are found right after the change. Continuous Delivery
+keeps every successful build ready to release, but a person presses the button; Continuous Deployment
+goes one step further and releases every successful build to production automatically. This project
+implements CI only.
+
+## Secrets
+
+`.env` files, passwords and database credentials are never committed (see `.gitignore`).
+Git keeps every version forever, so a pushed password stays in the history and in every clone,
+and a public repository is scanned by bots within minutes. Use `.env.example` with placeholders,
+environment variables and Jenkins Credentials instead.
