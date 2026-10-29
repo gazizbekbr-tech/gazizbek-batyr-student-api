@@ -1,0 +1,26 @@
+# Gradle and build output
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE and OS files
+.idea/
+*.iml
+.vscode/
+out/
+.DS_Store
+
+# Logs and reports generated at runtime
+logs/*.log
+logs/*.txt
+!logs/.gitkeep
+
+# Secrets: environment files, passwords, credentials
+.env
+*.env
+!.env.example
+*.pem
+*.key
+
+# Local Jenkins data
+jenkins_home/
