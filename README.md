@@ -2,7 +2,7 @@
 
 Spring Boot CRUD REST API for students. DevOps midterm project of **Batyr Gazizbek**.
 
-Project status: initial version with create, read and delete operations.
+Project status: API documented with curl examples by Batyr Gazizbek.
 
 | Item            | Value                            |
 |-----------------|----------------------------------|
@@ -58,6 +58,24 @@ A missing student returns `404 Not Found` with a JSON error body.
 - Updating a student that does not exist returns `404 Not Found`; changing the email
   to one that already belongs to another student returns `409 Conflict`.
 - Covered by `updatesStudent` and `updateOfMissingStudentReturns404` tests.
+
+## curl examples
+
+```bash
+BASE=http://localhost:8091/api/gazizbek-batyr/students
+
+# create
+curl -i -X POST $BASE -H 'Content-Type: application/json' \
+  -d '{"firstName":"Batyr","lastName":"Gazizbek","email":"batyr.g@student.kz","groupName":"IT2-2301","course":3}'
+# read all / read one
+curl -s $BASE
+curl -s $BASE/1
+# update
+curl -i -X PUT $BASE/1 -H 'Content-Type: application/json' \
+  -d '{"firstName":"Batyr","lastName":"Gazizbek","email":"batyr.g@student.kz","groupName":"IT2-2301","course":4}'
+# delete
+curl -i -X DELETE $BASE/1
+```
 
 ## Build and test
 
