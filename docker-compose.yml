@@ -1,0 +1,54 @@
+# Docker Compose for gazizbek-batyr-student-api (Batyr Gazizbek)
+# Start:  docker compose up -d
+# Values like POSTGRES_PASSWORD come from the .env file (not committed, see .env.example)
+
+name: gazizbek-batyr-student-api
+
+services:
+  gazizbek-batyr-db:
+    image: postgres:17-alpine
+    container_name: gazizbek-batyr-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-gazizbek_batyr_db}
+      POSTGRES_USER: ${POSTGRES_USER:-gazizbek_batyr}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - gazizbek-batyr-pgdata:/var/lib/postgresql/data
+    networks:
+      - gazizbek-batyr-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  gazizbek-batyr-app:
+    build:
+      context: .
+      args:
+        APP_VERSION: ${APP_VERSION:-1.0.0}
+    image: gazizbek-batyr-student-api:${APP_TAG:-v1.0-gazizbek-batyr}
+    container_name: gazizbek-batyr-app
+    depends_on:
+      gazizbek-batyr-db:
+        condition: service_healthy
+    environment:
+      # "gazizbek-batyr-db" is the Compose service name, resolved by Docker DNS on the network
+      SPRING_DATASOURCE_URL: jdbc:postgresql://gazizbek-batyr-db:5432/${POSTGRES_DB:-gazizbek_batyr_db}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-gazizbek_batyr}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      SERVER_PORT: 8091
+    ports:
+      - "8091:8091"
+    networks:
+      - gazizbek-batyr-net
+    restart: unless-stopped
+
+volumes:
+  gazizbek-batyr-pgdata:
+
+networks:
+  gazizbek-batyr-net:
+    driver: bridge
