@@ -2,7 +2,7 @@
 
 Spring Boot CRUD REST API for students. DevOps midterm project of **Batyr Gazizbek**.
 
-Project status: initial version with create, read and delete operations.
+Project status: full CRUD (create, read, update, delete) is implemented.
 
 | Item            | Value                            |
 |-----------------|----------------------------------|
