@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-/** Request body for creating a student. */
+/** Request body for creating or updating a student. */
 public record StudentRequest(
 		@NotBlank @Size(max = 60) String firstName,
 		@NotBlank @Size(max = 60) String lastName,
