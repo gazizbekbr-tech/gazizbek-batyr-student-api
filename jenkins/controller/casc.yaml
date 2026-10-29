@@ -1,0 +1,80 @@
+# Jenkins Configuration as Code - Batyr Gazizbek (IT2-2301)
+# Secrets are read from environment variables (jenkins/.env, not committed).
+jenkins:
+  systemMessage: "Jenkins of Batyr Gazizbek (IT2-2301, ID 38091) - gazizbek-batyr-student-api CI"
+  # The controller only schedules work, builds run on the Docker-capable agent
+  numExecutors: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "batyr"
+          name: "Batyr Gazizbek"
+          password: "${JENKINS_ADMIN_PASSWORD}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: true
+  nodes:
+    - permanent:
+        name: "gazizbek-batyr-docker-agent"
+        nodeDescription: "Docker-capable build agent (JDK 21, Docker CLI) for Batyr Gazizbek"
+        labelString: "docker gazizbek-batyr"
+        numExecutors: 2
+        remoteFS: "/home/jenkins/agent"
+        mode: EXCLUSIVE
+        launcher:
+          inbound:
+            webSocket: true
+
+unclassified:
+  location:
+    url: "http://localhost:8080/"
+
+tool:
+  jdk:
+    installations:
+      - name: "jdk21"
+        home: "/opt/java/openjdk"
+  git:
+    installations:
+      - name: "Default"
+        home: "git"
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - string:
+              scope: GLOBAL
+              id: "gazizbek-batyr-verify-db-password"
+              description: "PostgreSQL password for the pipeline smoke test (Batyr Gazizbek)"
+              secret: "${VERIFY_DB_PASSWORD}"
+
+jobs:
+  - script: |
+      multibranchPipelineJob('Gazizbek_Batyr_Student_API') {
+        description('CI pipeline of Batyr Gazizbek (IT2-2301) for https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api')
+        branchSources {
+          branchSource {
+            source {
+              git {
+                id('gazizbek-batyr-student-api')
+                remote('https://github.com/gazizbekbr-tech/gazizbek-batyr-student-api.git')
+                traits {
+                  gitBranchDiscovery()
+                }
+              }
+            }
+          }
+        }
+        factory {
+          workflowBranchProjectFactory {
+            scriptPath('Jenkinsfile')
+          }
+        }
+        orphanedItemStrategy {
+          discardOldItems {
+            numToKeep(5)
+          }
+        }
+      }

@@ -1,0 +1,39 @@
+# Local Jenkins for Batyr Gazizbek: controller + Docker-capable inbound agent
+# Start with ./jenkins/start-jenkins.sh (creates jenkins/.env and connects the agent)
+
+name: gazizbek-batyr-jenkins
+
+services:
+  jenkins:
+    build: ./controller
+    image: gazizbek-batyr-jenkins:lts-jdk21
+    container_name: gazizbek-batyr-jenkins
+    env_file: .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    restart: unless-stopped
+
+  agent:
+    build: ./agent
+    image: gazizbek-batyr-jenkins-agent:jdk21-docker
+    container_name: gazizbek-batyr-jenkins-agent
+    depends_on:
+      - jenkins
+    environment:
+      JENKINS_URL: http://jenkins:8080
+      JENKINS_AGENT_NAME: gazizbek-batyr-docker-agent
+      JENKINS_SECRET: ${JENKINS_AGENT_SECRET:-}
+      JENKINS_WEB_SOCKET: "true"
+    # the agent talks to the host Docker engine through its socket
+    group_add:
+      - "${DOCKER_GID:-991}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - agent_workspace:/home/jenkins/agent
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
+  agent_workspace:
