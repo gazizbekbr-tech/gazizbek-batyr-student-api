@@ -1,5 +1,6 @@
 package kz.gazizbek.studentapi.student;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "students")
+@JsonPropertyOrder({"id", "firstName", "lastName", "email", "groupName", "course", "createdAt", "updatedAt"})
 public class Student {
 
 	@Id

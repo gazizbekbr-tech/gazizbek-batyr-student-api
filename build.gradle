@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'kz.gazizbek'
-version = '1.0.0'
+version = '1.1.0'
 description = 'Student CRUD API - Batyr Gazizbek'
 
 java {
