@@ -45,7 +45,7 @@ class StudentControllerTests {
 	void infoShowsStudentName() throws Exception {
 		mvc.perform(get("/"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.student").value("Batyr Gazizbek - CONTROLLED ERROR"))
+				.andExpect(jsonPath("$.student").value("Batyr Gazizbek"))
 				.andExpect(jsonPath("$.studentId").value("38091"));
 	}
 
